@@ -1,4 +1,4 @@
-name: Build and Publish Windows Release
+name: Build and Publish Vencord Arabic Assets
 
 on:
   push:
@@ -12,19 +12,18 @@ permissions:
   contents: write
 
 concurrency:
-  group: arabic-release-${{ github.ref }}
+  group: vencord-assets-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build-windows:
-    name: Build Windows package
-    runs-on: windows-latest
+  build:
+    runs-on: ubuntu-latest
 
     env:
       VENCORD_REMOTE: ShadowUR0/Vencord
 
     steps:
-      - name: Check out source
+      - name: Checkout source
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -34,7 +33,7 @@ jobs:
         with:
           version: 11.9.0
 
-      - name: Set up Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -43,165 +42,57 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build standalone Vencord
+      - name: Build desktop assets
         run: pnpm buildStandalone
 
-      - name: Prepare Windows package
-        id: package
-        shell: pwsh
+      - name: Determine release tag
+        id: version
+        shell: bash
         run: |
-          $ErrorActionPreference = "Stop"
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            echo "tag=${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=latest" >> "$GITHUB_OUTPUT"
+          fi
 
-          if ("${{ github.ref_type }}" -eq "tag") {
-              $version = "${{ github.ref_name }}"
-              $releaseTag = "${{ github.ref_name }}"
-              $releaseTitle = "Vencord Arabic ${{ github.ref_name }}"
-          } else {
-              $version = "latest"
-              $releaseTag = "latest"
-              $releaseTitle = "Vencord Arabic - Latest Build"
-          }
+      - name: Prepare required assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release-assets
+          cp dist/patcher.js* release-assets/
+          cp dist/preload.js* release-assets/
+          cp dist/renderer.js* release-assets/
+          cp dist/renderer.css* release-assets/
+          cd release-assets
+          sha256sum * > SHA256SUMS.txt
 
-          $packageName = "VencordArabic-$version-Windows"
-          $packageDir = Join-Path $PWD "package"
-          $outputDir = Join-Path $PWD "release-output"
-          $zipPath = Join-Path $outputDir "$packageName.zip"
-          $hashPath = "$zipPath.sha256"
-
-          New-Item -ItemType Directory -Force -Path $packageDir, $outputDir | Out-Null
-          Copy-Item -Path "dist" -Destination (Join-Path $packageDir "dist") -Recurse
-          Copy-Item -Path "LICENSE" -Destination (Join-Path $packageDir "LICENSE")
-
-          Invoke-WebRequest `
-              -Uri "https://github.com/Vencord/Installer/releases/latest/download/VencordInstallerCli.exe" `
-              -OutFile (Join-Path $packageDir "VencordInstallerCli.exe")
-
-          @'
-          @echo off
-          setlocal
-          title Install Vencord Arabic
-          set "VENCORD_USER_DATA_DIR=%~dp0"
-          set "VENCORD_DEV_INSTALL=1"
-          "%~dp0VencordInstallerCli.exe" --install
-          echo.
-          echo Installation finished. You may now open Discord.
-          pause
-          '@ | Set-Content -Path (Join-Path $packageDir "Install.bat") -Encoding ascii
-
-          @'
-          @echo off
-          setlocal
-          title Uninstall Vencord Arabic
-          set "VENCORD_USER_DATA_DIR=%~dp0"
-          set "VENCORD_DEV_INSTALL=1"
-          "%~dp0VencordInstallerCli.exe" --uninstall
-          echo.
-          echo Uninstall finished.
-          pause
-          '@ | Set-Content -Path (Join-Path $packageDir "Uninstall.bat") -Encoding ascii
-
-          $commit = "${{ github.sha }}"
-          $sourceUrl = "https://github.com/${{ github.repository }}/tree/$commit"
-
-          @"
-          Vencord Arabic for Windows
-          ===========================
-
-          التثبيت:
-          1. فك ضغط الملف بالكامل.
-          2. أغلق Discord بالكامل، بما في ذلك أيقونته بجانب الساعة.
-          3. شغّل Install.bat.
-          4. افتح Discord وفعّل إضافة VencordArabic من إعدادات Vencord.
-
-          إزالة التثبيت:
-          شغّل Uninstall.bat من المجلد نفسه.
-
-          ملاحظات:
-          - هذه نسخة غير رسمية مبنية على Vencord وليست صادرة عن فريق Vencord الأصلي أو Discord.
-          - قد يعرض Windows تحذير SmartScreen لأن الحزمة غير موقعة رقميًا.
-          - لا تحذف مجلد الحزمة قبل إكمال التثبيت.
-          - استخدام تعديلات عميل Discord قد يخالف شروط خدمة Discord.
-
-          Source code for this exact build:
-          $sourceUrl
-
-          Commit:
-          $commit
-
-          License:
-          GPL-3.0-or-later. See LICENSE.
-          "@ | Set-Content -Path (Join-Path $packageDir "README.txt") -Encoding utf8
-
-          @"
-          Repository: https://github.com/${{ github.repository }}
-          Commit: $commit
-          Build workflow: ${{ github.workflow }}
-          "@ | Set-Content -Path (Join-Path $packageDir "BUILD_INFO.txt") -Encoding utf8
-
-          Compress-Archive -Path (Join-Path $packageDir "*") -DestinationPath $zipPath -CompressionLevel Optimal
-
-          $hash = (Get-FileHash -Path $zipPath -Algorithm SHA256).Hash.ToLowerInvariant()
-          "$hash  $packageName.zip" | Set-Content -Path $hashPath -Encoding ascii
-
-          "release_tag=$releaseTag" >> $env:GITHUB_OUTPUT
-          "release_title=$releaseTitle" >> $env:GITHUB_OUTPUT
-          "zip_path=$zipPath" >> $env:GITHUB_OUTPUT
-          "hash_path=$hashPath" >> $env:GITHUB_OUTPUT
-          "package_name=$packageName" >> $env:GITHUB_OUTPUT
-
-      - name: Upload workflow artifact
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.package.outputs.package_name }}
-          path: |
-            ${{ steps.package.outputs.zip_path }}
-            ${{ steps.package.outputs.hash_path }}
-          if-no-files-found: error
-          retention-days: 30
+          name: VencordArabic-Raw-Assets
+          path: release-assets/
 
-      - name: Publish GitHub Release
-        shell: pwsh
+      - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
+        shell: bash
         run: |
-          $ErrorActionPreference = "Stop"
-          $PSNativeCommandUseErrorActionPreference = $false
+          set -euo pipefail
+          TAG="${{ steps.version.outputs.tag }}"
 
-          $tag = "${{ steps.package.outputs.release_tag }}"
-          $title = "${{ steps.package.outputs.release_title }}"
-          $zip = "${{ steps.package.outputs.zip_path }}"
-          $hash = "${{ steps.package.outputs.hash_path }}"
+          if [ "$TAG" = "latest" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git tag -f latest "$GITHUB_SHA"
+            git push origin refs/tags/latest --force
+          fi
 
-          if ($tag -eq "latest") {
-              git config user.name "github-actions[bot]"
-              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-              git tag -f latest $env:GITHUB_SHA
-              if ($LASTEXITCODE -ne 0) { throw "Failed to create the latest tag." }
-              git push origin refs/tags/latest --force
-              if ($LASTEXITCODE -ne 0) { throw "Failed to publish the latest tag." }
-          }
+          printf 'Unofficial Vencord build with VencordArabic included.\n\nThese raw assets are consumed by ShadowUR0/Installer.\nSource commit: %s\n' "$GITHUB_SHA" > release-notes.md
 
-          $notes = @"
-          Unofficial Windows build of Vencord with the VencordArabic localization plugin included.
-
-          Install: extract the ZIP, close Discord completely, then run Install.bat.
-
-          Verify: compare the ZIP with the included .sha256 file.
-
-          Source commit: $env:GITHUB_SHA
-          "@
-          $notesPath = Join-Path $PWD "release-notes.md"
-          $notes | Set-Content -Path $notesPath -Encoding utf8
-
-          gh release view $tag *> $null
-          $releaseExists = $LASTEXITCODE -eq 0
-
-          if ($releaseExists) {
-              gh release edit $tag --title $title --notes-file $notesPath
-              if ($LASTEXITCODE -ne 0) { throw "Failed to update the release." }
-              gh release upload $tag $zip $hash --clobber
-              if ($LASTEXITCODE -ne 0) { throw "Failed to upload release files." }
-          } else {
-              gh release create $tag $zip $hash --target $env:GITHUB_SHA --title $title --notes-file $notesPath
-              if ($LASTEXITCODE -ne 0) { throw "Failed to create the release." }
-          }
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --title "Vencord Arabic - $TAG" --notes-file release-notes.md
+            gh release upload "$TAG" release-assets/* --clobber
+          else
+            gh release create "$TAG" release-assets/* --target "$GITHUB_SHA" --title "Vencord Arabic - $TAG" --notes-file release-notes.md
+          fi
