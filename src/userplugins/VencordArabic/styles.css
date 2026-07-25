@@ -1,0 +1,12 @@
+.vc-vencord-arabic-text {
+    direction: rtl;
+    unicode-bidi: plaintext;
+    text-align: start;
+}
+
+input.vc-vencord-arabic-text,
+textarea.vc-vencord-arabic-text,
+[contenteditable="true"].vc-vencord-arabic-text {
+    direction: rtl;
+    text-align: right;
+}
