@@ -1,21 +1,26 @@
 # Code of Conduct
 
-Our community is welcoming to everyone, regardless of their characteristics.
+مجتمع Vencord Arabic مفتوح للجميع ونتوقع من المشاركين التعامل باحترام والمحافظة على نقاش تقني ومفيد
 
-As such, we expect you to treat everyone with respect and contribute to an open and welcoming community.
+## افعل
 
-DO
-- have empathy and be nice to others
-- be respectful of differing opinions, even if you disagree
-- give and accept constructive criticism
+- احترم الاخرين حتى عند الاختلاف
+- قدم نقدا تقنيا وبناء
+- اشرح المشكلة دون مهاجمة الاشخاص
+- ساعد المستخدمين والمساهمين الجدد عندما تستطيع
+- احم خصوصية الاخرين ولا تنشر معلوماتهم الشخصية
 
-DON'T
-- use offensive or derogatory language
-- troll or spam
-- personally attack or harass others
+## لا تفعل
 
-Repetitive violations of these guidelines might get your access to the repository restricted.
+- الاهانة او التحرش او الهجمات الشخصية
+- السبام او التصيد المتعمد
+- نشر توكنات او بيانات خاصة او معلومات تعريفية تخص شخصا اخر
+- تحويل نقاش تقني الى صراع شخصي
 
-If you feel like a user is violating these guidelines or feel treated unfairly, please refrain from vigilantism
-and instead report the issue to a moderator! The best way is joining our [official Discord community](https://vencord.dev/discord)
-and opening a modmail ticket.
+قد يؤدي تكرار المخالفات الى تقييد الوصول الى مستودع المشروع او مساحات المجتمع التابعة له
+
+اذا احتجت الى الابلاغ عن مشكلة سلوكية، تواصل مع ادارة مجتمع Vencord Arabic عبر Discord بدلا من الدخول في مواجهة عامة:
+
+https://discord.gg/D9uwnFnqmd
+
+هذا الملف يخص مجتمع Vencord Arabic غير الرسمي ولا يمثل فريق Vencord الرسمي او Discord
