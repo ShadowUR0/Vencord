@@ -1,65 +1,82 @@
-# Contributing to Vencord
+# Contributing to Vencord Arabic
 
-> [!NOTE]
-> **AI Usage Notice**
->
-> Your contribution must be majority human written! Some AI assistance like inline suggestions is acceptable, but "vibecoded" contributions are not welcome.
-> Also **do not** use AI to generate your pull request description, README.md or in communication. Ignoring this rule will lead to a permanent block.
+شكرا لاهتمامك بالمساهمة في Vencord Arabic.
 
-Vencord is a community project and welcomes any kind of contribution from anyone!
+هذا المستودع هو fork غير رسمي من [Vencord](https://github.com/Vendicated/Vencord) ويركز على التعريب والتغييرات الخاصة بنسختنا. المساهمات هنا تستهدف **ShadowUR0/Vencord فقط**.
 
-We have development documentation for new contributors, which can be found at <https://docs.vencord.dev>.
+> [!IMPORTANT]
+> لا تستخدم هذا المستودع او اي Automation فيه لفتح Pull Request او Issue او ارسال Plugin الى مستودع Vencord الرسمي. مزامنة upstream في هذا المشروع احادية الاتجاه: نجلب تحديثات Vencord الى هذا الـfork فقط.
 
-All contributions should be made in accordance with our [Code of Conduct](./CODE_OF_CONDUCT.md).
+## ما الذي نرحب به؟
 
-## How to contribute
+- تحسين صياغة الترجمة العربية او تغطية واجهات جديدة
+- اصلاح مشاكل RTL او النصوص الديناميكية في `VencordArabic`
+- اصلاح مشاكل خاصة بهذا الـfork او تكامله مع Vencord Arabic Installer
+- تحسين الاختبارات وادوات حماية الترجمة والمزامنة
+- تحسين التوثيق الخاص بـVencord Arabic
 
-Contributions can be sent via pull requests. If you're new to Git, check [this guide](https://opensource.com/article/19/7/create-pull-request-github).
+اذا كانت المشكلة موجودة في Vencord الرسمي دون اي علاقة بتعديلات هذا الـfork، اذكر ذلك بوضوح عند فتح Issue هنا حتى نستطيع فصل مشكلة upstream عن مشكلة Vencord Arabic. لن يقوم المشروع بارسال تقرير او PR تلقائيا الى upstream.
 
-Pull requests can be made either to the `main` or the `dev` branch. However, unless you're an advanced user, I recommend sticking to `main`.
-This is because the dev branch might contain unstable changes and be force pushed frequently, which could cause conflicts in your pull request.
+## قبل البدء
 
-Before working on a major change, I highly recommend opening a feature request for it, making sure to check "I am willing to work on this myself",
-so we can discuss before you invest time. Alternatively, you can also do so in our Discord server's development
-channels. This saves you a lot of time in case your feature is considered too niche or rejected for any other reason.
+1. ابحث في Issues وPull Requests الموجودة لتجنب تكرار العمل
+2. للتغييرات الكبيرة افتح Issue اولا لشرح الفكرة
+3. حافظ على تعديلات الـfork معزولة قدر الامكان لتقليل تعارضات مزامنة upstream
+4. لا تحذف اشعارات حقوق Vencord او الترخيص الاصلي
 
-## Write a plugin
+## قواعد التعريب
 
-Writing a plugin is the primary way to contribute.
+- اسماء منتجات وتقنيات مثل `Vencord` و`Discord` و`Vesktop` تبقى باسمها المعروف عند الحاجة
+- اسماء Plugins الرسمية تبقى بالانجليزية عندما تعرض كاسم Plugin حتى يسهل البحث عنها ومطابقتها مع توثيق Vencord
+- ترجم وصف الـPlugin والاعدادات والازرار والتلميحات والنصوص الموجهة للمستخدم
+- لا تضف خدمة ترجمة خارجية او API للترجمة؛ التعريب يجب ان يبقى محليا
+- حافظ على معنى النص الاصلي وتجنب الترجمة الحرفية الغريبة
+- راع اتجاه RTL دون قلب القيم التقنية او الكود او الروابط
 
-Before starting your plugin:
-- Consider if this plugin would be useful to a large portion of the userbase. We do not accept niche plugins
-- Check existing pull requests to see if someone is already working on a similar plugin
-- Familarise yourself with our plugin rules below to ensure your plugin is not banned
+ملفات التعريب موجودة في:
 
-### Plugin Rules
+```text
+src/userplugins/VencordArabic/translations/
+```
 
-- No simple slash command plugins like `/cat`. Instead, make a [user installable Discord bot](https://discord.com/developers/docs/change-log#userinstallable-apps-preview)
-- No simple text replace plugins like Let me Google that for you. The TextReplace plugin can do this
-- No raw DOM manipulation. Use proper patches and React
-- No FakeDeafen or FakeMute
-- No StereoMic
-- No plugins that simply hide or redesign ui elements. This can be done with CSS
-- No plugins that interact with specific Discord bots (official Discord apps like Youtube WatchTogether are okay)
-- No selfbots or API spam (animated status, message pruner, auto reply, nitro snipers, etc)
-- No untrusted third party APIs. Popular services like Google or GitHub are fine, but absolutely no self hosted ones
-- No plugins that require the user to enter their own API key
-- Do not introduce new dependencies unless absolutely necessary and warranted
+## فحص تغييرات واجهة Vencord
 
-## Improve Vencord itself
+نحتفظ في `src/userplugins/VencordArabic/translation-sources.json` ببصمات ملفات واجهة Vencord التي تمت مراجعتها للتعريب.
 
-If you have any ideas on how to improve Vencord itself, or want to propose a new plugin API, feel free to open a feature request so we can discuss.
+اذا غير upstream احد هذه الملفات، سيفشل فحص الترجمة عمدا حتى تتم مراجعة النصوص الجديدة. بعد المراجعة وتحديث الترجمة فقط، حدث البصمة المسجلة للملف.
 
-Or if you notice any bugs or typos, feel free to fix them!
+لا تحدث البصمة لمجرد جعل CI ينجح دون مراجعة الملف.
 
-## Contribute to our Documentation
+## الاختبارات
 
-The source code of our documentation is available at <https://github.com/Vencord/Docs>
+ثبت الاعتماديات ثم شغل:
 
-If you see anything outdated, incorrect or lacking, please fix it!
-If you think a new page should be added, feel free to suggest it via an issue and we can discuss.
+```sh
+pnpm install --frozen-lockfile
+pnpm checkArabicTranslations
+pnpm test
+```
 
-## Help out users in our Discord community
+وللتأكد من نسخة الويب:
 
-We have an open support channel in our [Discord community](https://vencord.dev/discord).
-Helping out users there is always appreciated! The more, the merrier.
+```sh
+pnpm buildWeb
+```
+
+## Pull Requests
+
+- استهدف فرع `main` في **ShadowUR0/Vencord**
+- اشرح المشكلة والحل والتاثير على التعريب او الـfork
+- ارفق صورا قبل/بعد عندما يكون التغيير بصريا
+- لا تخلط تغييرات غير مرتبطة في PR واحد
+- يجب ان تجتاز الاختبارات قبل الدمج
+
+## المجتمع
+
+للدعم والاسئلة العامة يمكنك استخدام مجتمع المشروع على Discord:
+
+https://discord.gg/D9uwnFnqmd
+
+## الترخيص
+
+Vencord Arabic مشتق من Vencord ويستمر تحت ترخيص GPL-3.0-or-later. بالمساهمة في هذا المستودع، يجب ان تكون مساهمتك متوافقة مع هذا الترخيص ومع اشعارات حقوق المشروع الاصلي.
