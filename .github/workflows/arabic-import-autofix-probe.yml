@@ -31,6 +31,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/userplugins/VencordArabic/index.ts
+          git add -f src/userplugins/VencordArabic/index.ts
           git commit -m "Fix Arabic plugin import ordering"
           git push origin HEAD:main
