@@ -15,15 +15,17 @@ It currently provides:
 - Local translation of Vencord settings and related Vencord UI text
 - RTL presentation for translated Arabic text
 - Translation of selected placeholders, titles and accessibility labels
-- Dynamic handling for several count/status/error strings, including update counts
+- Dynamic handling for several count/status/error strings, including update counts and Patch Helper output
 - Context-aware preservation of canonical Vencord plugin names in English while allowing ordinary UI labels with the same text to be translated
 - No translation API, telemetry or external network request from the localization plugin
 
 The translation layer is split into:
 
-- `translations/ar.json` — main Arabic dictionary
+- `translations/ar.json` — main Arabic dictionary and broad plugin/settings vocabulary
 - `translations/ar-overrides.json` — wording overrides and plugin-description improvements
-- `translations/ar-core.json` — reviewed translations for current core Vencord settings pages
+- `translations/ar-core.json` — reviewed translations for current core Vencord settings, notifications, updater, sync and platform appearance pages
+- `translations/ar-themes.json` — local/online theme UI, theme cards and CSP/resource warnings
+- `translations/ar-patch-helper.json` — Patch Helper UI, validation messages and preview actions
 - `translation-sources.json` — reviewed upstream source revisions used by the translation maintenance guard
 - `styles.css` — scoped RTL presentation for translated text
 
@@ -33,9 +35,10 @@ The translation layer is split into:
 
 The guard:
 
-- validates all Arabic JSON dictionaries
+- validates every modular Arabic JSON dictionary loaded by the plugin
+- rejects empty translations
 - verifies a required set of core Vencord UI strings has Arabic translations
-- verifies `VencordArabic` actually loads the reviewed core dictionary
+- verifies `VencordArabic` actually loads every registered dictionary
 - compares reviewed Vencord settings source files with their recorded Git blob revisions
 - fails in strict mode when a reviewed upstream UI source changes, requiring translation review before the baseline is refreshed
 
@@ -52,6 +55,8 @@ Both the Arabic DevBuild workflow and upstream synchronization workflow run this
 The fork has its own project identity and documentation:
 
 - `README.md` describes Vencord Arabic rather than the upstream project
+- `CONTRIBUTING.md` documents contribution and translation rules for this fork
+- `.github/ISSUE_TEMPLATE/` and `.github/pull_request_template.md` target Vencord Arabic instead of upstream Vencord
 - `assets/vencord-arabic-logo.png` is the Arabic project mark
 - Distribution points to `ShadowUR0/Vencord` and `ShadowUR0/Installer`
 
@@ -59,9 +64,9 @@ The fork has its own project identity and documentation:
 
 `.github/workflows/arabic-release.yml` builds and publishes the Vencord Arabic development build used by the installer.
 
-The release is intended to follow the same rolling DevBuild concept used by upstream Vencord: the release assets are replaced as `main` changes rather than creating a permanent release for every commit.
+The release follows the rolling DevBuild concept used by upstream Vencord: release assets are replaced as `main` changes instead of creating a permanent release for every commit.
 
-`ShadowUR0/Installer` consumes this fork's build assets instead of the official Vencord build.
+`ShadowUR0/Installer` consumes this fork's `devbuild` assets instead of the official Vencord build.
 
 ## Upstream synchronization
 
