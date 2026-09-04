@@ -1,5 +1,5 @@
 /*
- * VencordArabic
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Shadow and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -7,8 +7,8 @@
 import { definePluginSettings } from "@api/Settings";
 import definePlugin, { OptionType, StartAt } from "@utils/types";
 
-import style from "./styles.css?managed";
 import { canonicalPluginNames } from "./pluginNames";
+import style from "./styles.css?managed";
 import overrides from "./translations/ar-overrides.json";
 import translations from "./translations/ar.json";
 
