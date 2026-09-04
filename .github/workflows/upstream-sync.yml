@@ -27,19 +27,55 @@ jobs:
           git fetch upstream main
 
       - name: Merge upstream when needed
+        id: merge
         shell: bash
         run: |
           set -euo pipefail
 
           if git merge-base --is-ancestor upstream/main HEAD; then
             echo "Vencord Arabic already contains the latest upstream Vencord commit."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # This only merges upstream into ShadowUR0/Vencord. It never creates
-          # or submits a pull request to upstream Vencord.
+          # Merge only in this temporary runner first. Nothing reaches our
+          # main branch until the complete Vencord test suite below passes.
           git merge --no-edit upstream/main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Setup pnpm
+        if: steps.merge.outputs.changed == 'true'
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node.js
+        if: steps.merge.outputs.changed == 'true'
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        if: steps.merge.outputs.changed == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint and build desktop
+        if: steps.merge.outputs.changed == 'true'
+        run: pnpm test
+
+      - name: Build web
+        if: steps.merge.outputs.changed == 'true'
+        run: pnpm buildWeb
+
+      - name: Validate plugin structure
+        if: steps.merge.outputs.changed == 'true'
+        run: pnpm generatePluginJson
+
+      - name: Update Vencord Arabic main
+        if: steps.merge.outputs.changed == 'true'
+        run: |
+          # This push targets ShadowUR0/Vencord only. This workflow never
+          # creates a pull request or submits changes to upstream Vencord.
           git push origin HEAD:main
