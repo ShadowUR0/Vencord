@@ -9,8 +9,8 @@ import definePlugin, { OptionType, StartAt } from "@utils/types";
 
 import { canonicalPluginNames } from "./pluginNames";
 import style from "./styles.css?managed";
-import overrides from "./translations/ar-overrides.json";
 import translations from "./translations/ar.json";
+import overrides from "./translations/ar-overrides.json";
 
 type TranslationMap = Record<string, string>;
 type TextState = { original: string; translated: string; };
