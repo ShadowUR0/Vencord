@@ -1,0 +1,36 @@
+{
+    "Find Themes:": "العثور على ثيمات:",
+    "BetterDiscord theme list": "قائمة ثيمات BetterDiscord",
+    "If using the BD site, click on \"Download\" and place the downloaded .theme.css file into your themes folder.": "إذا استخدمت موقع BetterDiscord فاضغط \"Download\" ثم ضع ملف .theme.css الذي تم تنزيله داخل مجلد الثيمات.",
+    "External Resources": "المصادر الخارجية",
+    "For security reasons, loading resources (styles, fonts, images, ...) from most sites is blocked.": "لأسباب أمنية يتم حظر تحميل الموارد مثل الأنماط والخطوط والصور من معظم المواقع.",
+    "Make sure all your assets are hosted on GitHub, GitLab, Codeberg, Imgur, Discord or Google Fonts.": "تأكد من استضافة جميع موارد الثيم على GitHub أو GitLab أو Codeberg أو Imgur أو Discord أو Google Fonts.",
+    "Local Themes": "الثيمات المحلية",
+    "Upload Theme": "رفع ثيم",
+    "Open Themes Folder": "فتح مجلد الثيمات",
+    "Load missing Themes": "تحميل الثيمات المفقودة",
+    "Edit ClientTheme": "تعديل ClientTheme",
+
+    "This section is for advanced users. If you are having difficulties using it, use the Local Themes tab instead.": "هذا القسم للمستخدمين المتقدمين. إذا واجهت صعوبة في استخدامه فاستعمل تبويب الثيمات المحلية بدلا منه.",
+    "Paste links to css files here": "الصق روابط ملفات CSS هنا",
+    "One link per line": "رابط واحد في كل سطر",
+    "You can prefix lines with @light or @dark to toggle them based on your Discord theme": "يمكنك بدء السطر بـ@light أو @dark لتفعيل الثيم حسب مظهر Discord لديك",
+    "Make sure to use direct links to files (raw or github.io)!": "تأكد من استخدام روابط مباشرة للملفات مثل raw أو github.io!",
+    "Online Themes": "الثيمات عبر الإنترنت",
+    "Enter Theme Links...": "أدخل روابط الثيمات...",
+
+    "Website": "الموقع",
+    "Discord Server": "سيرفر Discord",
+    "Invalid or expired invite": "رابط الدعوة غير صالح أو منتهي",
+
+    "Blocked Resources": "موارد محظورة",
+    "Some images, styles, or fonts were blocked because they come from disallowed domains.": "تم حظر بعض الصور أو الأنماط أو الخطوط لأنها تأتي من نطاقات غير مسموح بها.",
+    "It is highly recommended to move them to GitHub or Imgur. But you may also allow domains if you fully trust them.": "يفضل بشدة نقلها إلى GitHub أو Imgur، ويمكنك أيضا السماح بنطاقات أخرى إذا كنت تثق بها تماما.",
+    "After allowing a domain, you have to fully close (from tray / task manager) and restart": "بعد السماح بنطاق يجب إغلاق التطبيق بالكامل من شريط النظام أو مدير المهام ثم إعادة تشغيل",
+    "to apply the change.": "لتطبيق التغيير.",
+    "Blocked URLs": "الروابط المحظورة",
+    "Allow": "السماح",
+    "Later!": "لاحقا!",
+    "Imgur links should be direct links in the form of": "يجب أن تكون روابط Imgur مباشرة وبالصيغة",
+    "To obtain a direct link, right-click the image and select \"Copy image address\".": "للحصول على رابط مباشر انقر بزر الفأرة الأيمن على الصورة واختر \"Copy image address\"."
+}
