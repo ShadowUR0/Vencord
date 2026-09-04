@@ -9,6 +9,7 @@ import definePlugin, { OptionType, StartAt } from "@utils/types";
 
 import { canonicalPluginNames } from "./pluginNames";
 import style from "./styles.css?managed";
+import coreTranslations from "./translations/ar-core.json";
 import translations from "./translations/ar.json";
 import overrides from "./translations/ar-overrides.json";
 
@@ -24,7 +25,8 @@ const ATTRIBUTE_NAMES = ["aria-label", "placeholder", "title"] as const;
 const VENCORD_ID_PATTERN = /vencord(?:_|-|\b)/i;
 const TRANSLATION_MAP: TranslationMap = {
     ...(translations as TranslationMap),
-    ...(overrides as TranslationMap)
+    ...(overrides as TranslationMap),
+    ...(coreTranslations as TranslationMap)
 };
 const CANONICAL_PLUGIN_NAMES = new Set<string>(canonicalPluginNames);
 const textStates = new Map<Text, TextState>();
@@ -94,6 +96,8 @@ function translateDynamicText(value: string) {
         [/^(\d+) plugins?$/i, count => formatArabicCount(count, { zero: "إضافات", one: "إضافة واحدة", two: "إضافتان", few: "إضافات", many: "إضافة", other: "إضافة" })],
         [/^(\d+) themes?$/i, count => formatArabicCount(count, { zero: "ثيمات", one: "ثيم واحد", two: "ثيمان", few: "ثيمات", many: "ثيم", other: "ثيم" })],
         [/^(\d+) results?$/i, count => formatArabicCount(count, { zero: "نتائج", one: "نتيجة واحدة", two: "نتيجتان", few: "نتائج", many: "نتيجة", other: "نتيجة" })],
+        [/^There is 1 Update$/i, () => "يوجد تحديث واحد"],
+        [/^There are (\d+) Updates$/i, count => formatArabicCount(count, { zero: "تحديثات", one: "تحديث واحد", two: "تحديثان", few: "تحديثات", many: "تحديثا", other: "تحديث" })],
         [/^Only available on the (.+)$/i, platform => `متاح فقط على ${localizePlatform(platform)}`],
         [/^Failed to start dependencies: (.+)$/i, dependencies => `تعذر تشغيل الإضافات المطلوبة: ${dependencies}`],
         [/^Error while (starting|stopping) plugin (.+)$/i, (action, plugin) => `حدث خطأ أثناء ${action === "starting" ? "تشغيل" : "إيقاف"} الإضافة ${plugin}`]
@@ -107,11 +111,21 @@ function translateDynamicText(value: string) {
     return null;
 }
 
-function translateValue(value: string) {
+function isCanonicalPluginNameElement(element: Element | null, normalized: string) {
+    if (!CANONICAL_PLUGIN_NAMES.has(normalized)) return false;
+
+    // Keep canonical plugin names in English only where they are actually
+    // rendered as plugin names. This avoids accidentally leaving ordinary UI
+    // labels such as "Settings" untranslated just because a plugin shares the
+    // same name.
+    return Boolean(element?.closest(".vc-addon-title, .vc-plugin-modal-header"));
+}
+
+function translateValue(value: string, element: Element | null = null) {
     const normalized = normalizeText(value);
     if (!normalized) return null;
 
-    if (CANONICAL_PLUGIN_NAMES.has(normalized)) return null;
+    if (isCanonicalPluginNameElement(element, normalized)) return null;
 
     const direct = TRANSLATION_MAP[normalized];
     if (direct) return preserveOuterWhitespace(value, direct);
@@ -199,7 +213,7 @@ function processTextNode(node: Text) {
         return;
     }
 
-    const translated = translateValue(current);
+    const translated = translateValue(current, parent);
     if (!translated || translated === current) {
         if (previous && current !== previous.original) textStates.delete(node);
         syncDirection(parent, false);
@@ -223,7 +237,7 @@ function processAttributes(element: Element) {
         const previous = states?.get(attribute);
         if (previous?.translated === current) continue;
 
-        const translated = translateValue(current);
+        const translated = translateValue(current, element);
         if (!translated || translated === current) {
             if (previous && current !== previous.original) states?.delete(attribute);
             continue;
