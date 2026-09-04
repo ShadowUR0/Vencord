@@ -1,0 +1,12 @@
+{
+    "src/plugins/_core/settings.tsx": "990472cf3f86b327262ba6f5129474bf9df6dc69",
+    "src/components/settings/tabs/vencord/index.tsx": "ca4ddede6bf81b110998f4d09f310ea32e076fcb",
+    "src/components/settings/tabs/plugins/index.tsx": "28b33c080615054b2980457c34679acfa770d9fd",
+    "src/components/settings/tabs/plugins/PluginCard.tsx": "ac8b9b839e386d8539571c08518a5942720a4055",
+    "src/components/settings/tabs/plugins/PluginModal.tsx": "942c552f36905be8b5edd3f540f87bcbe029c253",
+    "src/components/settings/tabs/updater/index.tsx": "52960c60ec4d4bedd07d2c11de939b8ff6219ad9",
+    "src/components/settings/tabs/updater/Components.tsx": "67c3b443d90354a4c849e252a3127bd6eb8c6a8b",
+    "src/components/settings/tabs/themes/index.tsx": "4a44b7057906d38b7cb363fa47c054aa119041cf",
+    "src/components/settings/tabs/sync/BackupAndRestoreTab.tsx": "447c1f4429b3bf362b246b2f15f1936d9bbdca04",
+    "src/components/settings/tabs/sync/CloudTab.tsx": "114b16defd748020f4d0c503210abaa6d31ee11f"
+}
