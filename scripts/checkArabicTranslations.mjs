@@ -13,7 +13,9 @@ const strict = process.argv.includes("--strict");
 const translationFiles = [
     "src/userplugins/VencordArabic/translations/ar.json",
     "src/userplugins/VencordArabic/translations/ar-overrides.json",
-    "src/userplugins/VencordArabic/translations/ar-core.json"
+    "src/userplugins/VencordArabic/translations/ar-core.json",
+    "src/userplugins/VencordArabic/translations/ar-themes.json",
+    "src/userplugins/VencordArabic/translations/ar-patch-helper.json"
 ];
 
 const requiredKeys = [
@@ -30,6 +32,7 @@ const requiredKeys = [
     "Restart now",
     "Quick Actions",
     "Notification Log",
+    "Notification Settings",
     "Edit QuickCSS",
     "Relaunch Discord",
     "Open Settings Folder",
@@ -40,13 +43,17 @@ const requiredKeys = [
     "Update Now",
     "Local Themes",
     "Online Themes",
+    "Open Themes Folder",
+    "Blocked Resources",
     "Import Settings",
     "Export Settings",
     "Cloud Integrations",
     "Enable Settings Sync",
     "Upload Settings",
     "Download Settings",
-    "Reset Cloud Data"
+    "Reset Cloud Data",
+    "Full patch",
+    "Copy to Clipboard"
 ];
 
 const arabicPattern = /[\u0600-\u06ff]/;
@@ -89,8 +96,11 @@ for (const key of requiredKeys) {
 }
 
 const pluginEntry = readFileSync(resolve(root, "src/userplugins/VencordArabic/index.ts"), "utf8");
-if (!pluginEntry.includes('"./translations/ar-core.json"')) {
-    errors.push("VencordArabic/index.ts does not load ar-core.json");
+for (const relativePath of translationFiles) {
+    const fileName = relativePath.split("/").at(-1);
+    if (!pluginEntry.includes(`./translations/${fileName}`)) {
+        errors.push(`VencordArabic/index.ts does not load ${fileName}`);
+    }
 }
 
 const reviewedSourcesPath = "src/userplugins/VencordArabic/translation-sources.json";
