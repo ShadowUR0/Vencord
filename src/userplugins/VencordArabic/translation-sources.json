@@ -2,6 +2,8 @@
     "src/plugins/_core/settings.tsx": "990472cf3f86b327262ba6f5129474bf9df6dc69",
     "src/components/settings/tabs/vencord/index.tsx": "ca4ddede6bf81b110998f4d09f310ea32e076fcb",
     "src/components/settings/tabs/vencord/NotificationSettings.tsx": "f8de31ca04e686bb992f9105f88a174da7dfd9ff",
+    "src/components/settings/tabs/vencord/MacVibrancySettings.tsx": "3fe9f8da92509e80fa5881873c9f73fff532b047",
+    "src/components/settings/tabs/vencord/WindowsMaterialSettings.tsx": "0fec4ef88b059de047d26530bd9b1b666a6d2431",
     "src/components/settings/tabs/plugins/index.tsx": "28b33c080615054b2980457c34679acfa770d9fd",
     "src/components/settings/tabs/plugins/PluginCard.tsx": "ac8b9b839e386d8539571c08518a5942720a4055",
     "src/components/settings/tabs/plugins/PluginModal.tsx": "942c552f36905be8b5edd3f540f87bcbe029c253",
