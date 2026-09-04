@@ -1,98 +1,110 @@
-name: Build and Publish Vencord Arabic Assets
+name: Build Vencord Arabic DevBuild
 
 on:
   push:
     branches:
       - main
-    tags:
-      - "v*"
+    paths:
+      - .github/workflows/arabic-release.yml
+      - src/**
+      - browser/**
+      - scripts/build/**
+      - package.json
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
   workflow_dispatch:
 
 permissions:
   contents: write
 
+env:
+  FORCE_COLOR: true
+
 concurrency:
-  group: vencord-assets-${{ github.ref }}
+  group: vencord-arabic-devbuild
   cancel-in-progress: true
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
-
-    env:
-      VENCORD_REMOTE: ShadowUR0/Vencord
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 11.9.0
+        uses: pnpm/action-setup@v6
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Use Node.js 24
+        uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build desktop assets
-        run: pnpm buildStandalone
-
-      - name: Determine release tag
-        id: version
-        shell: bash
+      - name: Validate TypeScript and source
         run: |
-          if [ "${{ github.ref_type }}" = "tag" ]; then
-            echo "tag=${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
-          else
-            echo "tag=latest" >> "$GITHUB_OUTPUT"
-          fi
+          pnpm testTsc
+          pnpm lint
+          pnpm lint-styles
 
-      - name: Prepare required assets
+      - name: Build web
+        run: pnpm buildWebStandalone
+
+      - name: Build desktop
+        run: pnpm build --standalone
+
+      - name: Generate plugin list
+        run: pnpm generatePluginJson dist/plugins.json dist/plugin-readmes.json
+
+      - name: Clean up obsolete files
+        run: |
+          rm -rf dist/*-unpacked dist/vendor Vencord.user.css vencordDesktopRenderer.css vencordDesktopRenderer.css.map
+
+      - name: Create checksums
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p release-assets
-          cp dist/patcher.js* release-assets/
-          cp dist/preload.js* release-assets/
-          cp dist/renderer.js* release-assets/
-          cp dist/renderer.css* release-assets/
-          cd release-assets
-          sha256sum * > SHA256SUMS.txt
+          cd dist
+          find . -maxdepth 1 -type f ! -name SHA256SUMS.txt -print0 \
+            | sort -z \
+            | xargs -0 sha256sum > SHA256SUMS.txt
 
-      - name: Upload artifact
+      - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
-          name: VencordArabic-Raw-Assets
-          path: release-assets/
+          name: VencordArabic-DevBuild
+          path: dist/
 
-      - name: Publish release
+      - name: Publish rolling DevBuild
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
-          TAG="${{ steps.version.outputs.tag }}"
+          SHORT_SHA="$(git rev-parse --short HEAD)"
 
-          if [ "$TAG" = "latest" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git tag -f latest "$GITHUB_SHA"
-            git push origin refs/tags/latest --force
-          fi
+          cat > release-notes.md <<EOF
+          Rolling development build of Vencord Arabic.
 
-          printf 'Unofficial Vencord build with VencordArabic included.\n\nThese raw assets are consumed by ShadowUR0/Installer.\nSource commit: %s\n' "$GITHUB_SHA" > release-notes.md
+          Based on Vencord with the built-in VencordArabic localization layer.
+          This release is updated automatically when Vencord Arabic changes and is consumed by ShadowUR0/Installer.
 
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release edit "$TAG" --title "Vencord Arabic - $TAG" --notes-file release-notes.md
-            gh release upload "$TAG" release-assets/* --clobber
+          Source commit: $GITHUB_SHA
+          EOF
+
+          if gh release view devbuild >/dev/null 2>&1; then
+            gh release edit devbuild \
+              --title "Vencord Arabic DevBuild $SHORT_SHA" \
+              --notes-file release-notes.md
+            gh release upload devbuild --clobber dist/*
           else
-            gh release create "$TAG" release-assets/* --target "$GITHUB_SHA" --title "Vencord Arabic - $TAG" --notes-file release-notes.md
+            gh release create devbuild dist/* \
+              --target "$GITHUB_SHA" \
+              --title "Vencord Arabic DevBuild $SHORT_SHA" \
+              --notes-file release-notes.md
           fi
