@@ -8,6 +8,8 @@ import { definePluginSettings } from "@api/Settings";
 import definePlugin, { OptionType, StartAt } from "@utils/types";
 
 import style from "./styles.css?managed";
+import { canonicalPluginNames } from "./pluginNames";
+import overrides from "./translations/ar-overrides.json";
 import translations from "./translations/ar.json";
 
 type TranslationMap = Record<string, string>;
@@ -20,7 +22,11 @@ const AUTHOR = {
 };
 const ATTRIBUTE_NAMES = ["aria-label", "placeholder", "title"] as const;
 const VENCORD_ID_PATTERN = /vencord(?:_|-|\b)/i;
-const TRANSLATION_MAP = translations as TranslationMap;
+const TRANSLATION_MAP: TranslationMap = {
+    ...(translations as TranslationMap),
+    ...(overrides as TranslationMap)
+};
+const CANONICAL_PLUGIN_NAMES = new Set<string>(canonicalPluginNames);
 const textStates = new Map<Text, TextState>();
 const attributeStates = new Map<Element, Map<string, AttributeState>>();
 const markedElements = new Set<HTMLElement>();
@@ -47,13 +53,49 @@ function normalizeText(value: string) {
     return value.replace(/\s+/g, " ").trim();
 }
 
+type ArabicCountForms = {
+    zero: string;
+    one: string;
+    two: string;
+    few: string;
+    many: string;
+    other: string;
+};
+
+const arabicPluralRules = new Intl.PluralRules("ar");
+
+function formatArabicCount(rawCount: string, forms: ArabicCountForms) {
+    const count = Number(rawCount);
+    if (!Number.isFinite(count)) return `${rawCount} ${forms.other}`;
+
+    switch (arabicPluralRules.select(count)) {
+        case "zero": return `${rawCount} ${forms.zero}`;
+        case "one": return forms.one;
+        case "two": return forms.two;
+        case "few": return `${rawCount} ${forms.few}`;
+        case "many": return `${rawCount} ${forms.many}`;
+        default: return `${rawCount} ${forms.other}`;
+    }
+}
+
+function localizePlatform(platform: string) {
+    const knownPlatforms: Record<string, string> = {
+        desktop: "سطح المكتب",
+        web: "الويب",
+        vesktop: "Vesktop",
+        discorddesktop: "تطبيق Discord لسطح المكتب"
+    };
+
+    return knownPlatforms[platform.trim().toLowerCase()] ?? platform;
+}
+
 function translateDynamicText(value: string) {
     const dynamicRules: Array<[RegExp, (...matches: string[]) => string]> = [
-        [/^(\d+) plugins?$/i, count => `${count} إضافة`],
-        [/^(\d+) themes?$/i, count => `${count} سمة`],
-        [/^(\d+) results?$/i, count => `${count} نتيجة`],
-        [/^Only available on the (.+)$/i, platform => `متاح فقط على ${platform}`],
-        [/^Failed to start dependencies: (.+)$/i, dependencies => `فشل تشغيل التبعيات: ${dependencies}`],
+        [/^(\d+) plugins?$/i, count => formatArabicCount(count, { zero: "إضافات", one: "إضافة واحدة", two: "إضافتان", few: "إضافات", many: "إضافة", other: "إضافة" })],
+        [/^(\d+) themes?$/i, count => formatArabicCount(count, { zero: "ثيمات", one: "ثيم واحد", two: "ثيمان", few: "ثيمات", many: "ثيم", other: "ثيم" })],
+        [/^(\d+) results?$/i, count => formatArabicCount(count, { zero: "نتائج", one: "نتيجة واحدة", two: "نتيجتان", few: "نتائج", many: "نتيجة", other: "نتيجة" })],
+        [/^Only available on the (.+)$/i, platform => `متاح فقط على ${localizePlatform(platform)}`],
+        [/^Failed to start dependencies: (.+)$/i, dependencies => `تعذر تشغيل الإضافات المطلوبة: ${dependencies}`],
         [/^Error while (starting|stopping) plugin (.+)$/i, (action, plugin) => `حدث خطأ أثناء ${action === "starting" ? "تشغيل" : "إيقاف"} الإضافة ${plugin}`]
     ];
 
@@ -68,6 +110,8 @@ function translateDynamicText(value: string) {
 function translateValue(value: string) {
     const normalized = normalizeText(value);
     if (!normalized) return null;
+
+    if (CANONICAL_PLUGIN_NAMES.has(normalized)) return null;
 
     const direct = TRANSLATION_MAP[normalized];
     if (direct) return preserveOuterWhitespace(value, direct);
