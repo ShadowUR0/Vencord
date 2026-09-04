@@ -1,47 +1,63 @@
-name: Feature Request
-description: Have an idea for a new feature? Request it here! No plugin requests, go to our Discord server for that
+name: اقتراح لـVencord Arabic
+description: اقترح تحسين تعريب او RTL او ميزة خاصة بهذا الـfork
+title: "[Feature] <العنوان>"
 labels: [enhancement]
-title: "[Feature] <title>"
 
 body:
-    - type: markdown
-      attributes:
-          value: |
-              This form is not for any of the following:
-              - Plugin requests — Go to our [Discord server](https://discord.gg/D9uwnFnqmd) for that
-              - Feature requests for plugins — Go to our [Discord server](https://discord.gg/D9uwnFnqmd) for that
+  - type: markdown
+    attributes:
+      value: |
+        هذا النموذج مخصص للتغييرات الخاصة بـ**Vencord Arabic** مثل تحسين تجربة العربية وRTL وادوات المحافظة على التعريب وتكامل المشروع
 
-    - type: textarea
-      id: feature-description
-      attributes:
-          label: A clear and concise description of the feature you'd like to see
-      validations:
+        لطلبات Plugins العامة استخدم [Discord الخاص بالمشروع](https://discord.gg/D9uwnFnqmd)
+
+        هذا المستودع لا يفتح Pull Requests او Issues تلقائيا في Vencord الرسمي
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: مجال الاقتراح
+      options:
+        - التعريب وصياغة النصوص
+        - RTL وتجربة الواجهة العربية
+        - ادوات التحديث والمزامنة
+        - Vencord Arabic Installer
+        - توثيق وتجربة المطور
+        - ميزة خاصة بالـfork
+        - اخرى
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: ما المشكلة التي تريد حلها؟
+      description: اشرح الحاجة قبل وصف الحل
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: الحل المقترح
+      description: صف النتيجة التي تريدها وكيف تتوقع ان تعمل
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: معلومات اضافية
+      description: صور او امثلة او ملاحظات تقنية تساعد على فهم الفكرة
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: تاكيدات
+      options:
+        - label: بحثت عن اقتراح مشابه ولم اجده
           required: true
-
-    - type: textarea
-      id: implementation-notes
-      attributes:
-          label: Implementation Notes
-          description: If you have ideas about how this could be implemented technically, share them here
-      validations:
-          required: false
-
-    - type: textarea
-      id: additional-context
-      attributes:
-          label: Additional context
-          description: Screenshots, mockups, examples from other apps, etc.
-      validations:
-          required: false
-
-    - type: checkboxes
-      id: agreement-check
-      attributes:
-          label: Request Agreement
-          options:
-              - label: I've searched existing issues and this hasn't been suggested before
-              - label: This is a **core modification feature**, not a plugin request (those go in Discord)
-              - label: This feature would benefit most users, not just a specific use case
-              - label: I understand that if any of the above conditions are not met, this issue will be deleted and I will be banned from creating future issues without further warning
-                required: true
-              - label: I am willing to work on this myself
+        - label: الاقتراح متعلق بـVencord Arabic او تجربة العربية وليس مجرد طلب Plugin عام
+          required: true
