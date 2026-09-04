@@ -14,6 +14,8 @@ export const canonicalPluginNames = [
     "IgnoreActivities",
     "NoProfileThemes",
     "WebKeybinds",
+    "WebPWA",
+    "WebScreenShare",
     "TypingIndicator",
     "NoSystemBadge",
     "ImageLink",
