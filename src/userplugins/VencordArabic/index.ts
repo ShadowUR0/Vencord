@@ -9,11 +9,11 @@ import definePlugin, { OptionType, StartAt } from "@utils/types";
 
 import { canonicalPluginNames } from "./pluginNames";
 import style from "./styles.css?managed";
+import translations from "./translations/ar.json";
 import coreTranslations from "./translations/ar-core.json";
 import overrides from "./translations/ar-overrides.json";
 import patchHelperTranslations from "./translations/ar-patch-helper.json";
 import themeTranslations from "./translations/ar-themes.json";
-import translations from "./translations/ar.json";
 
 type TranslationMap = Record<string, string>;
 type TextState = { original: string; translated: string; };
