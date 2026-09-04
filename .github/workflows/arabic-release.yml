@@ -9,6 +9,7 @@ on:
       - src/**
       - browser/**
       - scripts/build/**
+      - scripts/checkArabicTranslations.mjs
       - package.json
       - pnpm-lock.yaml
       - pnpm-workspace.yaml
@@ -45,6 +46,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Verify Arabic translation coverage
+        run: pnpm checkArabicTranslations
 
       - name: Validate TypeScript and source
         run: |
