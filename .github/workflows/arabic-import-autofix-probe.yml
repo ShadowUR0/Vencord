@@ -1,0 +1,27 @@
+name: Arabic Import Autofix Probe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/arabic-import-autofix-probe.yml
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Show ESLint autofix diff
+        shell: bash
+        run: |
+          pnpm exec eslint src/userplugins/VencordArabic/index.ts --fix
+          git diff -- src/userplugins/VencordArabic/index.ts
