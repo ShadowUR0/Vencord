@@ -42,7 +42,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           # Merge only in this temporary runner first. Nothing reaches our
-          # main branch until the complete Vencord test suite below passes.
+          # main branch until all Vencord and Arabic-fork checks below pass.
           git merge --no-edit upstream/main
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
@@ -61,6 +61,10 @@ jobs:
         if: steps.merge.outputs.changed == 'true'
         run: pnpm install --frozen-lockfile
 
+      - name: Verify Arabic translation review
+        if: steps.merge.outputs.changed == 'true'
+        run: pnpm checkArabicTranslations
+
       - name: Lint and build desktop
         if: steps.merge.outputs.changed == 'true'
         run: pnpm test
@@ -77,5 +81,5 @@ jobs:
         if: steps.merge.outputs.changed == 'true'
         run: |
           # This push targets ShadowUR0/Vencord only. This workflow never
-          # creates a pull request or submits changes to upstream Vencord.
+          # creates a pull request, issue or submission in upstream Vencord.
           git push origin HEAD:main
