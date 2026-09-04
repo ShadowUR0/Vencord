@@ -10,8 +10,10 @@ import definePlugin, { OptionType, StartAt } from "@utils/types";
 import { canonicalPluginNames } from "./pluginNames";
 import style from "./styles.css?managed";
 import coreTranslations from "./translations/ar-core.json";
-import translations from "./translations/ar.json";
 import overrides from "./translations/ar-overrides.json";
+import patchHelperTranslations from "./translations/ar-patch-helper.json";
+import themeTranslations from "./translations/ar-themes.json";
+import translations from "./translations/ar.json";
 
 type TranslationMap = Record<string, string>;
 type TextState = { original: string; translated: string; };
@@ -26,7 +28,9 @@ const VENCORD_ID_PATTERN = /vencord(?:_|-|\b)/i;
 const TRANSLATION_MAP: TranslationMap = {
     ...(translations as TranslationMap),
     ...(overrides as TranslationMap),
-    ...(coreTranslations as TranslationMap)
+    ...(coreTranslations as TranslationMap),
+    ...(themeTranslations as TranslationMap),
+    ...(patchHelperTranslations as TranslationMap)
 };
 const CANONICAL_PLUGIN_NAMES = new Set<string>(canonicalPluginNames);
 const textStates = new Map<Text, TextState>();
@@ -91,6 +95,10 @@ function localizePlatform(platform: string) {
     return knownPlatforms[platform.trim().toLowerCase()] ?? platform;
 }
 
+function localizeKnownLabel(label: string) {
+    return TRANSLATION_MAP[normalizeText(label)] ?? label;
+}
+
 function translateDynamicText(value: string) {
     const dynamicRules: Array<[RegExp, (...matches: string[]) => string]> = [
         [/^(\d+) plugins?$/i, count => formatArabicCount(count, { zero: "إضافات", one: "إضافة واحدة", two: "إضافتان", few: "إضافات", many: "إضافة", other: "إضافة" })],
@@ -100,7 +108,10 @@ function translateDynamicText(value: string) {
         [/^There are (\d+) Updates$/i, count => formatArabicCount(count, { zero: "تحديثات", one: "تحديث واحد", two: "تحديثان", few: "تحديثات", many: "تحديثا", other: "تحديث" })],
         [/^Only available on the (.+)$/i, platform => `متاح فقط على ${localizePlatform(platform)}`],
         [/^Failed to start dependencies: (.+)$/i, dependencies => `تعذر تشغيل الإضافات المطلوبة: ${dependencies}`],
-        [/^Error while (starting|stopping) plugin (.+)$/i, (action, plugin) => `حدث خطأ أثناء ${action === "starting" ? "تشغيل" : "إيقاف"} الإضافة ${plugin}`]
+        [/^Error while (starting|stopping) plugin (.+)$/i, (action, plugin) => `حدث خطأ أثناء ${action === "starting" ? "تشغيل" : "إيقاف"} الإضافة ${plugin}`],
+        [/^Failed to render the (.+) tab\. If this issue persists, try using the installer to reinstall!$/i, tab => `تعذر عرض تبويب ${localizeKnownLabel(tab)}. إذا استمرت المشكلة فجرب إعادة التثبيت باستخدام الانستولر!`],
+        [/^Module (\d+)$/i, id => `الوحدة ${id}`],
+        [/^Group (\d+): (.+)$/i, (group, content) => `المجموعة ${group}: ${content}`]
     ];
 
     for (const [pattern, replacement] of dynamicRules) {
