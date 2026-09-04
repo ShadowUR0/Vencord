@@ -1,0 +1,45 @@
+name: Sync upstream Vencord
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: upstream-vencord-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Vencord Arabic
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Fetch upstream Vencord
+        run: |
+          git remote add upstream https://github.com/Vendicated/Vencord.git
+          git fetch upstream main
+
+      - name: Merge upstream when needed
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if git merge-base --is-ancestor upstream/main HEAD; then
+            echo "Vencord Arabic already contains the latest upstream Vencord commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # This only merges upstream into ShadowUR0/Vencord. It never creates
+          # or submits a pull request to upstream Vencord.
+          git merge --no-edit upstream/main
+          git push origin HEAD:main
