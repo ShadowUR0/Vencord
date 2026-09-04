@@ -72,6 +72,8 @@
         "stylelint": "^17.14.0",
         "stylelint-config-standard": "^40.0.0",
         "svgo": "^4.0.1",
+        "ts-patch": "^3.3.0",
+        "ts-pattern": "^5.9.0",
         "tsx": "^4.22.4",
         "type-fest": "^5.7.0",
         "typescript": "^6.0.3",
