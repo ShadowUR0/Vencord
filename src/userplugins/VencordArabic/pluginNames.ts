@@ -1,8 +1,11 @@
 /*
- * Canonical Vencord plugin names intentionally kept in English.
- * This preserves searchability and matches Vencord documentation/support.
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Shadow and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+// Canonical Vencord plugin names intentionally stay in English to preserve
+// searchability and match Vencord documentation/support.
 export const canonicalPluginNames = [
     "ImplicitRelationships",
     "FullUserInChatbox",
