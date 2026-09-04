@@ -103,12 +103,13 @@ jobs:
 
           if gh release view devbuild >/dev/null 2>&1; then
             gh release edit devbuild \
+              --target main \
               --title "Vencord Arabic DevBuild $SHORT_SHA" \
               --notes-file release-notes.md
             gh release upload devbuild --clobber dist/*
           else
             gh release create devbuild dist/* \
-              --target "$GITHUB_SHA" \
+              --target main \
               --title "Vencord Arabic DevBuild $SHORT_SHA" \
               --notes-file release-notes.md
           fi
