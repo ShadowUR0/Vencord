@@ -1,0 +1,62 @@
+---
+export const prerender = true;
+
+import Layout from "@layouts/Layout.astro";
+---
+
+<Layout title="404" description="الصفحة غير موجودة" opengraph={false}>
+    <div>
+        <img src="/assets/oneko-jump.png" aria-hidden="true" />
+        <h1>404</h1>
+        <p class="light">المكان مظلم هنا...</p>
+        <p class="dark">يبدو انك ضللت الطريق</p>
+        <a href="/Vencord/">العودة للرئيسية</a>
+    </div>
+</Layout>
+
+<style>
+    @font-face {
+        font-family: "Minecraft";
+        src: url("/fonts/Minecraft-Regular.woff") format("woff");
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    body { background-color: #141617; }
+
+    h1,
+    p,
+    a {
+        font-family: Minecraft, Inter, system-ui, sans-serif !important;
+        text-align: center;
+    }
+
+    h1 {
+        color: white;
+        font-size: 6em;
+        margin-bottom: -0.5em;
+    }
+
+    p { font-size: 3em; color: #ea6962; }
+
+    img {
+        display: block;
+        image-rendering: pixelated;
+        width: 100px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        .light { display: none; }
+    }
+
+    @media (prefers-color-scheme: light) {
+        .dark { display: none; }
+    }
+</style>
