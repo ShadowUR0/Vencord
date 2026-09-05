@@ -54,6 +54,7 @@ jobs:
           cp assets/vencord-arabic-logo.png vencord-site/public/assets/vencord-arabic-logo.png
           cp site/install.sh vencord-site/public/install.sh
           node site-vencord/apply-overrides.mjs vencord-site
+          node site-vencord/localize.mjs vencord-site
 
       - name: Install upstream website dependencies
         working-directory: vencord-site
