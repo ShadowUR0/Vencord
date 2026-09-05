@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#dd7878" />
-  <meta name="description" content="تحميل Vencord Arabic لويندوز والمتصفح." />
+  <meta name="description" content="تحميل Vencord Arabic لويندوز ولينكس وماك والمتصفح." />
   <title>Vencord Arabic — Download</title>
   <style>
     :root {
@@ -62,16 +62,18 @@
     .download-section{display:none;grid-column:1/-1;background:var(--bgCurrentWord);padding:1.25rem;border-radius:var(--border-xl);direction:rtl;opacity:0}
     #windows:checked~.windows,#linux:checked~.linux,#mac:checked~.mac,#browser:checked~.browser{display:block;opacity:1}
     .tab{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.7rem}
-    .tab p{max-width:760px;margin:.3rem auto}
+    .tab p{max-width:800px;margin:.3rem auto}
     code{background:var(--bg3);border-radius:6px;padding:.15rem .4rem;direction:ltr;display:inline-block;color:var(--fg1)}
+    .command{width:100%;max-width:850px;margin:.55rem 0;padding:1rem 1.1rem;border-radius:var(--border-md);background:var(--bg3);overflow:auto;text-align:left;direction:ltr;white-space:pre-wrap;color:var(--fg1)}
     .button-row{display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem;margin:.8rem 0}
     .button{display:inline-flex;justify-content:center;align-items:center;text-decoration:none;text-align:center;background:var(--bg3);font-weight:600;color:var(--fg0);outline:2px solid var(--fg0-muted);padding:.8em 2em;border-radius:var(--border-md);transition:background .15s ease}
     .button:hover{background:var(--bg5)}
     .button.primary{background:var(--accentPurple);color:var(--bgCurrentWord);outline:none}
     .button.primary:hover{filter:brightness(.92)}
-    .button.disabled{pointer-events:none;opacity:.55}
-    .warning{width:100%;max-width:820px;border:2px solid #f0b232;border-radius:var(--border-md);padding:.7rem 1rem;margin:.55rem 0;background:#f0b23216;text-align:right}
-    .warning p{margin:.35rem 0}
+    .warning,.info{width:100%;max-width:850px;border-radius:var(--border-md);padding:.7rem 1rem;margin:.55rem 0;text-align:right}
+    .warning{border:2px solid #f0b232;background:#f0b23216}
+    .info{border:2px solid #5865f2;background:#5865f216}
+    .warning p,.info p{margin:.35rem 0}
     .browser-grid{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:.4rem}
     .browser-box{background:var(--bg3);border-radius:var(--border-lg);padding:1rem;text-align:center}
     .browser-box h3{margin:.15rem 0 .35rem}
@@ -100,7 +102,7 @@
       <ul class="nav-links">
         <li><a class="download" href="#downloads">Download</a></li>
         <li><a class="source" href="https://github.com/ShadowUR0/Vencord">Source</a></li>
-        <li><a class="releases" href="https://github.com/ShadowUR0/Vencord/releases/tag/devbuild">Releases</a></li>
+        <li><a class="releases" href="https://github.com/ShadowUR0/Installer/releases/tag/latest">Installer Releases</a></li>
       </ul>
     </div>
   </nav>
@@ -123,44 +125,72 @@
         <div class="tab">
           <p>حمل <code>VencordArabicInstaller.exe</code> وشغله ثم اختر نسخة Discord التي تريد تثبيت Vencord Arabic عليها واضغط Install</p>
           <div class="button-row">
-            <a class="button primary" href="https://github.com/ShadowUR0/Installer/releases/latest/download/VencordArabicInstaller.exe">تحميل VencordArabicInstaller.exe</a>
-            <a class="button" href="https://github.com/ShadowUR0/Installer/releases/latest/download/SHA256SUMS.txt">SHA256SUMS.txt</a>
+            <a class="button primary" href="https://github.com/ShadowUR0/Installer/releases/download/latest/VencordArabicInstaller.exe">تحميل Windows GUI</a>
+            <a class="button" href="https://github.com/ShadowUR0/Installer/releases/download/latest/VencordArabicInstallerCli.exe">تحميل Windows CLI</a>
+            <a class="button" href="https://github.com/ShadowUR0/Installer/releases/download/latest/SHA256SUMS.txt">SHA256SUMS.txt</a>
           </div>
           <div class="warning">
-            <p><strong>لا تشغل الانستولر كمسؤول Administrator</strong></p>
-            <p>قد يعرض Windows تحذير SmartScreen لان الملف غير موقع رقميا حاليا</p>
+            <p><strong>لا تشغل نسخة GUI كمسؤول Administrator</strong></p>
+            <p>قد يعرض Windows تحذير SmartScreen لان الملفات غير موقعة رقميا حاليا</p>
           </div>
         </div>
       </section>
 
       <section class="download-section linux">
         <div class="tab">
-          <p>لا يوجد حاليا Installer مخصص لـVencord Arabic على Linux</p>
-          <a class="button disabled" href="#" aria-disabled="true">غير متوفر حاليا</a>
+          <p>مثل Vencord الرسمي، الطريقة الاسهل على Linux هي تشغيل الانستولر من الطرفية. السكربت يكتشف تلقائيا x86_64 او arm64 ويحمل نسختنا فقط</p>
+          <pre class="command"><code>sh -c "$(curl -fsSL https://shadowur0.github.io/Vencord/install.sh)"</code></pre>
+          <div class="button-row">
+            <a class="button primary" href="https://github.com/ShadowUR0/Installer/releases/download/latest/VencordArabicInstallerCli-linux-x86_64">Linux x86_64</a>
+            <a class="button" href="https://github.com/ShadowUR0/Installer/releases/download/latest/VencordArabicInstallerCli-linux-arm64">Linux arm64</a>
+            <a class="button" href="https://github.com/ShadowUR0/Installer/releases/download/latest/SHA256SUMS.txt">SHA256SUMS.txt</a>
+          </div>
+          <div class="warning">
+            <p>Discord المثبت عبر Snap غير مدعوم من الانستولر. استخدم Flatpak او حزمة Discord الرسمية بدلا منه</p>
+          </div>
         </div>
       </section>
 
       <section class="download-section mac">
         <div class="tab">
-          <p>لا يوجد حاليا Installer مخصص لـVencord Arabic على macOS</p>
-          <a class="button disabled" href="#" aria-disabled="true">غير متوفر حاليا</a>
+          <p>نسخة macOS موحدة تعمل على Intel وApple Silicon</p>
+          <div class="button-row">
+            <a class="button primary" href="https://github.com/ShadowUR0/Installer/releases/download/latest/VencordArabicInstaller-macos-universal.dmg">تحميل macOS Universal DMG</a>
+            <a class="button" href="https://github.com/ShadowUR0/Installer/releases/download/latest/SHA256SUMS.txt">SHA256SUMS.txt</a>
+          </div>
+          <div class="warning">
+            <p>النسخة حاليا ad-hoc signed وليست Apple-notarized. قد تحتاج الضغط بزر الفارة الايمن على التطبيق ثم Open او السماح له من Privacy &amp; Security</p>
+          </div>
         </div>
       </section>
 
       <section class="download-section browser">
         <div class="tab">
-          <p>نسخ المتصفح مبنية من DevBuild الحالي وتثبت يدويا</p>
+          <p>نسخ المتصفح تخرج مباشرة من Vencord Arabic DevBuild</p>
           <div class="browser-grid">
             <div class="browser-box">
               <h3>Chrome / Chromium</h3>
-              <p>Chrome وEdge وBrave وبقية المتصفحات المبنية على Chromium</p>
-              <a class="button primary" href="https://github.com/ShadowUR0/Vencord/releases/download/devbuild/extension-chrome.zip">تحميل extension-chrome.zip</a>
+              <p>Chrome وEdge وBrave وOpera وVivaldi وبقية متصفحات Chromium. فك ZIP ثم حمله كـUnpacked Extension من Developer Mode</p>
+              <a class="button primary" href="https://github.com/ShadowUR0/Vencord/releases/download/devbuild/extension-chrome.zip">تحميل Chromium Extension</a>
             </div>
             <div class="browser-box">
-              <h3>Firefox</h3>
-              <p>نسخة Firefox من DevBuild الحالي</p>
-              <a class="button primary" href="https://github.com/ShadowUR0/Vencord/releases/download/devbuild/extension-firefox.zip">تحميل extension-firefox.zip</a>
+              <h3>Userscript</h3>
+              <p>مناسب لمتصفحات Chromium وFirefox عبر مدير Userscript. على Firefox يفضل Tampermonkey</p>
+              <a class="button primary" href="https://github.com/ShadowUR0/Vencord/releases/download/devbuild/Vencord.user.js">تحميل Vencord.user.js</a>
             </div>
+            <div class="browser-box">
+              <h3>Firefox Dev ZIP</h3>
+              <p>Build خاص بفايرفوكس للاختبار والتطوير. Firefox لا يسمح عادة بتثبيت اضافات خارجية غير موقعة بشكل دائم</p>
+              <a class="button" href="https://github.com/ShadowUR0/Vencord/releases/download/devbuild/extension-firefox.zip">تحميل Firefox Dev ZIP</a>
+            </div>
+            <div class="browser-box">
+              <h3>DevBuild Checksums</h3>
+              <p>تحقق من ملفات Build المنشورة مباشرة من GitHub Actions</p>
+              <a class="button" href="https://github.com/ShadowUR0/Vencord/releases/download/devbuild/SHA256SUMS.txt">SHA256SUMS.txt</a>
+            </div>
+          </div>
+          <div class="info">
+            <p>نسخة Userscript لها قيود المتصفح المعتادة: بعض الميزات مثل CSS Editor والثيمات او الاضافات التي تعتمد على سكربتات خارجية قد لا تعمل بسبب Content Security Policy في Discord</p>
           </div>
         </div>
       </section>
