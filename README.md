@@ -11,7 +11,7 @@
 [![Version](https://img.shields.io/github/package-json/v/ShadowUR0/Vencord?label=Vencord)](package.json)
 [![License](https://img.shields.io/badge/license-GPL--3.0--or--later-blue)](LICENSE)
 
-[**تحميل Vencord Arabic Installer لويندوز**](https://github.com/ShadowUR0/Installer/releases/latest/download/VencordArabicInstaller.exe)
+[**تحميل Vencord Arabic**](https://shadowur0.github.io/Vencord/)
 &nbsp;•&nbsp;
 [**عرض DevBuild**](https://github.com/ShadowUR0/Vencord/releases/tag/devbuild)
 
