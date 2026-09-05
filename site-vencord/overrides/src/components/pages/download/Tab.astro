@@ -1,0 +1,55 @@
+---
+import AutoSizeGrid from "@components/AutoSizeGrid.astro";
+import LinkButton from "@components/LinkButton.astro";
+import { DOWNLOAD_BASE } from "@scripts/constants";
+
+export interface Props {
+    fileNames?: string[];
+}
+
+const { fileNames } = Astro.props as Props;
+---
+
+<div class="tab">
+    <slot name="header" />
+
+    {
+        fileNames && fileNames.length > 0 && (
+            <AutoSizeGrid class="os-downloads">
+                {fileNames.map((f, i) => (
+                    <LinkButton
+                        href={DOWNLOAD_BASE + f}
+                        class:list={{ "main-btn": i === 0 }}
+                    >
+                        تنزيل {f}
+                    </LinkButton>
+                ))}
+            </AutoSizeGrid>
+        )
+    }
+
+    <slot name="footer" />
+</div>
+
+<style>
+    .tab {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .os-downloads { margin-bottom: 1rem; }
+
+    .main-btn {
+        background-color: var(--accentPurple);
+        color: var(--bgCurrentWord);
+        outline: none;
+    }
+
+    .main-btn:focus-visible { outline: 2px solid var(--accentBlue); }
+    .main-btn:hover { background-color: rgba(var(--accentPurpleRgb), 0.8); }
+    .main-btn:active {
+        background-color: rgba(var(--accentPurpleRgb), 0.9);
+        outline: none;
+    }
+</style>
