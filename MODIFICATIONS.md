@@ -58,6 +58,8 @@ The fork has its own project identity and documentation:
 - `CONTRIBUTING.md` documents contribution and translation rules for this fork
 - `.github/ISSUE_TEMPLATE/` and `.github/pull_request_template.md` target Vencord Arabic instead of upstream Vencord
 - `assets/vencord-arabic-logo.png` is the Arabic project mark
+- `site/` contains the Arabic download website with platform-specific download links
+- `.github/workflows/pages.yml` publishes the website through GitHub Pages
 - Distribution points to `ShadowUR0/Vencord` and `ShadowUR0/Installer`
 
 ## Releases
