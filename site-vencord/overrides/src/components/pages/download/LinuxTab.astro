@@ -1,0 +1,59 @@
+---
+import Tab from "./Tab.astro";
+import CodeBlock from "@components/CodeBlock.svelte";
+import Card, { CardKind } from "@components/Card.svelte";
+---
+
+<Tab>
+    <div slot="header">
+        <p class="instruction">
+            افتح الطرفية وشغّل الامر التالي، ثم اتبع التعليمات التي تظهر لك.
+        </p>
+        <CodeBlock
+            code={`sh -c "$(curl -sS https://shadowur0.github.io/Vencord/install.sh)"`}
+            client:load
+        />
+    </div>
+
+    <section slot="footer">
+        <Card kind={CardKind.Warning}>
+            <p>
+                نسخة ديسكورد المثبتة عبر Snap غير مدعومة. استخدم بدلا منها احدى النسخ التالية:
+                <ul>
+                    <li>
+                        <a href="https://flathub.org/apps/details/com.discordapp.Discord">
+                            Discord عبر Flatpak
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://discord.com/download">
+                            حزمة Discord الرسمية بصيغة .deb
+                        </a>
+                    </li>
+                </ul>
+            </p>
+        </Card>
+    </section>
+</Tab>
+
+<style>
+    h3 {
+        margin: 1em 0 0.5em;
+        font-size: 2em;
+    }
+
+    ul {
+        margin-top: 0;
+        margin-right: 1em;
+        padding: 0;
+    }
+
+    p { margin-bottom: 0.25em; }
+
+    section {
+        width: 100%;
+        margin-top: 1em;
+    }
+
+    .instruction { margin-bottom: 1em; }
+</style>
