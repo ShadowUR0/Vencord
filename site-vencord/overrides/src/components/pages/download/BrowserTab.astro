@@ -1,0 +1,177 @@
+---
+import Card, { CardKind } from "@components/Card.svelte";
+import { CHROME_WEBSTORE_URL, USERSCRIPT_URL } from "@scripts/constants";
+import Tab from "./Tab.astro";
+import BrowserLogo from "./BrowserLogo.astro";
+
+const Chromiums = [
+    "brave",
+    "chrome",
+    "chromium",
+    "edge",
+    "opera",
+    "opera-gx",
+    "vivaldi",
+];
+---
+
+<Tab>
+    <Fragment slot="header">
+        <p>
+            يمكنك استخدام Vencord Arabic كاضافة لمتصفحات Chromium أو عبر Userscript.
+        </p>
+
+        <div class="buttons">
+            <a href={CHROME_WEBSTORE_URL}>
+                <div class="userscript-badge">
+                    <img
+                        src="/assets/browser-logos/chrome.svg"
+                        aria-hidden="true"
+                    />
+                    <div class="userscript-text">
+                        <span>تنزيل</span>
+                        <span>الاضافة</span>
+                    </div>
+                </div>
+            </a>
+            <a href={USERSCRIPT_URL} title="تنزيل Vencord.user.js">
+                <div class="userscript-badge">
+                    <img src="/assets/monkey.png" aria-hidden="true" />
+                    <div class="userscript-text">
+                        <span>تنزيل</span>
+                        <span>Userscript</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <Card kind={CardKind.Warning}>
+            <p>
+                بسبب سياسة الحماية من المحتوى في ديسكورد، لن تعمل بعض الميزات مع نسخة Userscript،
+                ومنها محرر CSS وبعض الثيمات والاضافات التي تعتمد على سكربتات خارجية.
+            </p>
+        </Card>
+
+        <Card kind={CardKind.Info}>
+            <h2>طريقة التثبيت</h2>
+
+            <div class="browser-sections">
+                <section>
+                    <div class="browser-logos">
+                        {Chromiums.map(c => <BrowserLogo browser={c} />)}
+                    </div>
+                    <p class="browser-instruction">
+                        نزّل ملف الاضافة وفك الضغط عنه، ثم افتح صفحة الاضافات في المتصفح وفعّل
+                        <strong>Developer Mode</strong> واختر <strong>Load unpacked</strong> وحدد مجلد الاضافة.
+
+                        <br />
+                        <br />
+                        ويمكنك بدلا من ذلك تثبيت مدير Userscript مثل <a
+                            href="https://chromewebstore.google.com/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag"
+                            >Violentmonkey</a
+                        > أو <a
+                            href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo"
+                            >Tampermonkey</a
+                        >، ثم افتح ملف <a href={USERSCRIPT_URL}>Vencord.user.js</a> وسيعرض مدير السكربت خيار التثبيت تلقائيا.
+                    </p>
+                </section>
+
+                <section>
+                    <BrowserLogo browser="firefox" />
+                    <div class="browser-instruction">
+                        <ol>
+                            <li>
+                                ثبّت <a href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/">Tampermonkey</a>
+                                من متجر اضافات Firefox.
+                            </li>
+                            <li>
+                                افتح ملف <a href={USERSCRIPT_URL}>Vencord.user.js</a> وسيعرض Tampermonkey خيار التثبيت.
+                            </li>
+                        </ol>
+                        <p>
+                            Firefox لا يسمح بالتثبيت الدائم لاضافات خارجية غير موقعة، لذلك نستخدم Userscript بدلا من اضافة مستقلة.
+                        </p>
+                    </div>
+                </section>
+
+                <section>
+                    <BrowserLogo browser="safari" />
+                    <p class="browser-instruction">
+                        Safari غير مدعوم حاليا. استخدم متصفحا اخر اذا كنت تريد تشغيل Vencord Arabic من المتصفح.
+                    </p>
+                </section>
+            </div>
+        </Card>
+    </Fragment>
+</Tab>
+
+<style>
+    .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1em;
+        flex-wrap: wrap;
+    }
+
+    .buttons a {
+        text-decoration: none;
+        color: black;
+        transition: filter 0.2s ease-in-out;
+    }
+
+    .chrome-badge { border-radius: var(--border-lg); }
+
+    .userscript-badge {
+        height: 58px;
+        width: 180px;
+        padding: 4px 8px;
+        border-radius: var(--border-lg);
+        box-sizing: border-box;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        background: white;
+        direction: rtl;
+    }
+
+    .userscript-badge img { height: 90%; }
+
+    .userscript-text span { line-height: 1; }
+
+    .userscript-text span:nth-child(1) {
+        font-size: 1em;
+        font-weight: 500;
+    }
+
+    .userscript-text span:nth-child(2) {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    .browser-sections {
+        display: grid;
+        gap: 2em;
+    }
+
+    h2 {
+        font-size: 1.5em;
+        line-height: 1.5em;
+        margin-block: 0.25em 0.5em;
+    }
+
+    .browser-logos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        direction: ltr;
+        justify-content: flex-end;
+    }
+
+    .browser-instruction { margin: 0.5em 0; }
+
+    ol {
+        padding: 0 1em 0 0;
+        margin-top: 0;
+    }
+</style>
