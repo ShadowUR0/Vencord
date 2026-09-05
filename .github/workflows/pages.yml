@@ -38,17 +38,16 @@ jobs:
           path: vencord-site
           persist-credentials: false
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.33.2
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: pnpm
-          cache-dependency-path: vencord-site/pnpm-lock.yaml
+
+      - name: Setup upstream pnpm version
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.33.2 --activate
+          pnpm --version
 
       - name: Apply Vencord Arabic website overrides
         run: |
