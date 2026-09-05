@@ -39,19 +39,59 @@ Vencord Arabic هو fork غير رسمي من [Vencord](https://github.com/Vendi
 
 [`src/userplugins/VencordArabic`](src/userplugins/VencordArabic)
 
-## التثبيت على Windows
+## التثبيت
 
-الطريقة الموصى بها هي استخدام **Vencord Arabic Installer** الخاص بالمشروع:
+صفحة التحميل الرسمية لهذا الـfork تعرض النسخة المناسبة لكل منصة:
 
-1. حمل [احدث Vencord Arabic Installer](https://github.com/ShadowUR0/Installer/releases/latest/download/VencordArabicInstaller.exe)
+**https://shadowur0.github.io/Vencord/**
+
+### Windows
+
+الطريقة الموصى بها هي **Vencord Arabic Installer** بواجهة رسومية:
+
+1. حمل [`VencordArabicInstaller.exe`](https://github.com/ShadowUR0/Installer/releases/download/latest/VencordArabicInstaller.exe)
 2. اغلق Discord بالكامل
 3. اختر نسخة Discord المطلوبة مثل Stable او PTB او Canary، او حدد مسارا مخصصا
 4. اضغط `Install`
 5. افتح Discord من جديد
 
-يدعم الانستولر ايضا الاصلاح واعادة التثبيت والازالة وOpenAsar والمسارات المخصصة.
+توجد ايضا نسخة CLI باسم [`VencordArabicInstallerCli.exe`](https://github.com/ShadowUR0/Installer/releases/download/latest/VencordArabicInstallerCli.exe).
 
-> قد يعرض Windows SmartScreen تحذيرا لان ملف الانستولر غير موقع رقميا حاليا. تستطيع مقارنة SHA-256 المنشور مع ملف `SHA256SUMS.txt` في Release الانستولر.
+> قد يعرض Windows SmartScreen تحذيرا لان الملفات غير موقعة رقميا حاليا. لا تشغل نسخة GUI كمسؤول Administrator.
+
+### Linux
+
+يتوفر Installer CLI لكل من `x86_64` و`arm64`. الطريقة الاسهل:
+
+```sh
+sh -c "$(curl -fsSL https://shadowur0.github.io/Vencord/install.sh)"
+```
+
+السكربت يكتشف معمارية الجهاز ويجلب نسخة Vencord Arabic المناسبة تلقائيا.
+
+> Discord المثبت عبر Snap غير مدعوم. استخدم Flatpak او حزمة Discord الرسمية.
+
+### macOS
+
+يتوفر DMG موحد يعمل على **Intel وApple Silicon**:
+
+[`VencordArabicInstaller-macos-universal.dmg`](https://github.com/ShadowUR0/Installer/releases/download/latest/VencordArabicInstaller-macos-universal.dmg)
+
+> نسخة macOS مبنية بتوقيع ad-hoc وليست Apple-notarized حاليا، لذلك قد تحتاج فتحها عبر `Open` من Finder او السماح لها من Privacy & Security.
+
+### Browser
+
+يوفر DevBuild:
+
+- Chromium extension لـChrome وEdge وBrave وOpera وVivaldi وغيرها
+- Userscript باسم `Vencord.user.js` لمتصفحات Chromium وFirefox
+- Firefox development ZIP للاختبار، مع قيود Firefox على تثبيت الاضافات الخارجية غير الموقعة
+
+كل الخيارات وروابطها موجودة في [صفحة التحميل](https://shadowur0.github.io/Vencord/#browser).
+
+جميع ملفات Installer المنشورة لها SHA-256 داخل [`SHA256SUMS.txt`](https://github.com/ShadowUR0/Installer/releases/download/latest/SHA256SUMS.txt).
+
+يدعم الانستولر ايضا الاصلاح واعادة التثبيت والازالة وOpenAsar والمسارات المخصصة.
 
 ## التحديثات والـDevBuild
 
