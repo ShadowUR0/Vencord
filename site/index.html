@@ -3,446 +3,197 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#0d0f14" />
-  <meta name="description" content="Vencord Arabic - نسخة عربية غير رسمية من Vencord مع تعريب مدمج وتحميل مباشر لاحدث الاصدارات." />
-  <title>Vencord Arabic</title>
+  <meta name="theme-color" content="#dd7878" />
+  <meta name="description" content="تحميل Vencord Arabic لويندوز والمتصفح." />
+  <title>Vencord Arabic — Download</title>
   <style>
     :root {
-      color-scheme: dark;
-      --bg: #0d0f14;
-      --panel: rgba(24, 27, 35, .78);
-      --panel-strong: #191c24;
-      --border: rgba(255,255,255,.09);
-      --text: #f7f7fb;
-      --muted: #a8adbb;
-      --accent: #ff4f9d;
-      --accent-2: #ff77b5;
-      --shadow: 0 24px 70px rgba(0,0,0,.35);
-      --radius: 26px;
+      --light-bg0:#f9f5d7;--light-bg3:#f2e4bc;--light-bg5:#ebdbb2;--light-current:#f2eac7;
+      --light-fg0:#644735;--light-fg1:#503829;--light-muted:#64473566;
+      --light-purple:#945e80;--light-blue:#45707a;--light-green:#6c782e;--light-yellow:#b37109;--light-orange:#c35e0a;
+      --dark-bg0:#1d2021;--dark-bg3:#3c3836;--dark-bg5:#504944;--dark-current:#32302f;
+      --dark-fg0:#d4be98;--dark-fg1:#ddc7a0;--dark-muted:#d4be9866;
+      --dark-purple:#d3869b;--dark-blue:#7caea3;--dark-green:#a8b665;--dark-yellow:#d8a656;--dark-orange:#e78a4f;
+      --border-xl:20px;--border-lg:16px;--border-md:12px;
+      --horizontal-margin:20%;
+      --bg0:var(--dark-bg0);--bg3:var(--dark-bg3);--bg5:var(--dark-bg5);--bgCurrentWord:var(--dark-current);
+      --fg0:var(--dark-fg0);--fg1:var(--dark-fg1);--fg0-muted:var(--dark-muted);
+      --accentPurple:var(--dark-purple);--accentBlue:var(--dark-blue);--accentGreen:var(--dark-green);--accentYellow:var(--dark-yellow);--accentOrange:var(--dark-orange);
+      color-scheme:dark light;
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(900px 440px at 85% -10%, rgba(255,79,157,.18), transparent 60%),
-        radial-gradient(760px 500px at 0% 65%, rgba(127,83,255,.10), transparent 60%),
-        var(--bg);
+    @media (prefers-color-scheme:light){
+      :root{
+        --bg0:var(--light-bg0);--bg3:var(--light-bg3);--bg5:var(--light-bg5);--bgCurrentWord:var(--light-current);
+        --fg0:var(--light-fg0);--fg1:var(--light-fg1);--fg0-muted:var(--light-muted);
+        --accentPurple:var(--light-purple);--accentBlue:var(--light-blue);--accentGreen:var(--light-green);--accentYellow:var(--light-yellow);--accentOrange:var(--light-orange);
+      }
     }
 
-    a { color: inherit; text-decoration: none; }
-    button, a { -webkit-tap-highlight-color: transparent; }
+    *{box-sizing:border-box}
+    html{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5;background:var(--bg0);color:var(--fg0)}
+    body{margin:0;min-height:100vh;background:var(--bg0);color:var(--fg0)}
+    a{color:var(--accentPurple)}
 
-    .shell {
-      width: min(1080px, calc(100% - 32px));
-      margin: 0 auto;
+    nav{background:var(--bg0);position:sticky;top:0;z-index:20}
+    .nav-content{display:flex;direction:ltr;justify-content:space-between;align-items:center;margin:0 var(--horizontal-margin);min-height:64px}
+    .brand{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--fg0);font-weight:700}
+    .brand img{width:34px;height:34px;object-fit:contain}
+    .nav-links{display:flex;align-items:center;gap:.2rem;list-style:none;margin:0;padding:0}
+    .nav-links a{text-decoration:none;text-align:center;padding:.5em;color:var(--fg0);transition:.15s ease}
+    .nav-links a:hover,.nav-links a:focus{text-decoration:underline;text-decoration-thickness:2px;outline:none}
+    .nav-links .download{color:var(--accentPurple)}
+    .nav-links .source:hover{color:var(--accentBlue)}
+    .nav-links .releases:hover{color:var(--accentGreen)}
+
+    main{margin:2em var(--horizontal-margin);min-height:72vh}
+    h1{color:var(--accentPurple);font-size:clamp(2.2rem,5vw,3.4rem);margin:.4rem 0 .5rem}
+    .intro{margin:0 0 1.5rem;color:var(--fg0);font-size:1.05rem}
+    .subtle{color:var(--fg1)}
+
+    .downloads{display:grid;gap:1rem;grid-template-columns:repeat(4,1fr);margin:1.25rem 0 1rem;direction:ltr}
+    .downloads input{display:none}
+    .downloads label{font-size:1rem;font-weight:600;letter-spacing:.02em;padding:1.25em 1.5rem;text-align:center;cursor:pointer;border-radius:var(--border-lg);background:var(--bg3);color:var(--fg0);user-select:none}
+    #windows:checked+label{background:var(--accentBlue);color:var(--bg0)}
+    #linux:checked+label{background:var(--accentGreen);color:var(--bg0)}
+    #mac:checked+label{background:var(--accentYellow);color:var(--bg0)}
+    #browser:checked+label{background:var(--accentOrange);color:var(--bg0)}
+
+    .download-section{display:none;grid-column:1/-1;background:var(--bgCurrentWord);padding:1.25rem;border-radius:var(--border-xl);direction:rtl;opacity:0}
+    #windows:checked~.windows,#linux:checked~.linux,#mac:checked~.mac,#browser:checked~.browser{display:block;opacity:1}
+    .tab{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.7rem}
+    .tab p{max-width:760px;margin:.3rem auto}
+    code{background:var(--bg3);border-radius:6px;padding:.15rem .4rem;direction:ltr;display:inline-block;color:var(--fg1)}
+    .button-row{display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem;margin:.8rem 0}
+    .button{display:inline-flex;justify-content:center;align-items:center;text-decoration:none;text-align:center;background:var(--bg3);font-weight:600;color:var(--fg0);outline:2px solid var(--fg0-muted);padding:.8em 2em;border-radius:var(--border-md);transition:background .15s ease}
+    .button:hover{background:var(--bg5)}
+    .button.primary{background:var(--accentPurple);color:var(--bgCurrentWord);outline:none}
+    .button.primary:hover{filter:brightness(.92)}
+    .button.disabled{pointer-events:none;opacity:.55}
+    .warning{width:100%;max-width:820px;border:2px solid #f0b232;border-radius:var(--border-md);padding:.7rem 1rem;margin:.55rem 0;background:#f0b23216;text-align:right}
+    .warning p{margin:.35rem 0}
+    .browser-grid{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:.4rem}
+    .browser-box{background:var(--bg3);border-radius:var(--border-lg);padding:1rem;text-align:center}
+    .browser-box h3{margin:.15rem 0 .35rem}
+    .browser-box p{font-size:.95rem}
+
+    footer{margin:3.5rem var(--horizontal-margin) 1.5rem;border-top:1px solid var(--fg0-muted);padding-top:1.25rem;text-align:center;color:var(--fg1);font-size:.9rem}
+    footer a{color:var(--accentPurple)}
+
+    @media(max-width:900px){:root{--horizontal-margin:8%}}
+    @media(max-width:600px){
+      :root{--horizontal-margin:4%}
+      .nav-content{flex-direction:column;gap:.5rem;padding:.7rem 0}
+      .downloads label{padding:.65em .45rem}
+      .browser-grid{grid-template-columns:1fr}
     }
-
-    nav {
-      min-height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      letter-spacing: -.02em;
-    }
-
-    .brand img {
-      width: 42px;
-      height: 42px;
-      object-fit: contain;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .nav-link {
-      padding: 10px 14px;
-      border-radius: 14px;
-      transition: background .18s ease, color .18s ease;
-    }
-
-    .nav-link:hover { background: rgba(255,255,255,.06); color: var(--text); }
-
-    .hero {
-      min-height: 520px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 64px 0 46px;
-    }
-
-    .hero-inner { max-width: 760px; }
-
-    .hero-logo {
-      width: min(280px, 68vw);
-      height: auto;
-      display: block;
-      margin: 0 auto 28px;
-      filter: drop-shadow(0 24px 35px rgba(255,79,157,.12));
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(42px, 8vw, 76px);
-      line-height: .98;
-      letter-spacing: -.055em;
-    }
-
-    .lead {
-      max-width: 660px;
-      margin: 24px auto 0;
-      color: var(--muted);
-      font-size: clamp(17px, 2.4vw, 21px);
-      line-height: 1.9;
-    }
-
-    .hero-actions {
-      margin-top: 30px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    .btn {
-      min-height: 50px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      padding: 0 20px;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: rgba(255,255,255,.05);
-      font-weight: 750;
-      transition: transform .16s ease, border-color .16s ease, background .16s ease;
-    }
-
-    .btn:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.16); }
-    .btn:active { transform: translateY(0) scale(.985); }
-
-    .btn.primary {
-      border-color: transparent;
-      color: #111217;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: 0 14px 32px rgba(255,79,157,.2);
-    }
-
-    section { padding: 54px 0; }
-
-    .section-heading {
-      margin-bottom: 24px;
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 18px;
-    }
-
-    h2 {
-      margin: 0;
-      font-size: clamp(30px, 4.4vw, 44px);
-      letter-spacing: -.035em;
-    }
-
-    .section-heading p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .downloads {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .card {
-      position: relative;
-      min-height: 250px;
-      display: flex;
-      flex-direction: column;
-      padding: 22px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025));
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(16px);
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
-      pointer-events: none;
-    }
-
-    .icon {
-      width: 52px;
-      height: 52px;
-      display: grid;
-      place-items: center;
-      border-radius: 17px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid var(--border);
-      font-size: 25px;
-      direction: ltr;
-    }
-
-    .card h3 { margin: 18px 0 6px; font-size: 22px; }
-    .card p { margin: 0; color: var(--muted); line-height: 1.65; font-size: 14px; }
-    .card .meta { margin-top: 8px; min-height: 22px; color: #d2d5df; font-size: 12px; }
-    .card .card-action { margin-top: auto; padding-top: 24px; }
-    .card .btn { width: 100%; }
-
-    .recommended {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      padding: 6px 9px;
-      border-radius: 999px;
-      color: #ffb9d7;
-      background: rgba(255,79,157,.11);
-      border: 1px solid rgba(255,79,157,.22);
-      font-size: 11px;
-      font-weight: 750;
-    }
-
-    .info {
-      margin-top: 16px;
-      padding: 18px 20px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      color: var(--muted);
-      background: rgba(255,255,255,.025);
-      line-height: 1.75;
-      font-size: 14px;
-    }
-
-    .info strong { color: var(--text); }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 16px;
-    }
-
-    .about-card {
-      padding: 26px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: rgba(255,255,255,.025);
-    }
-
-    .about-card h3 { margin: 0 0 12px; font-size: 21px; }
-    .about-card p, .about-card li { color: var(--muted); line-height: 1.8; }
-    .about-card ul { margin: 0; padding-right: 18px; }
-
-    footer {
-      padding: 40px 0 50px;
-      color: #7f8595;
-      font-size: 13px;
-      line-height: 1.7;
-      text-align: center;
-    }
-
-    @media (max-width: 820px) {
-      .downloads, .about-grid { grid-template-columns: 1fr; }
-      .hero { min-height: 460px; padding-top: 44px; }
-      .section-heading { align-items: start; flex-direction: column; }
-    }
-
-    @media (max-width: 560px) {
-      .shell { width: min(100% - 22px, 1080px); }
-      nav { min-height: 66px; }
-      .nav-links .hide-mobile { display: none; }
-      .hero-actions { align-items: stretch; flex-direction: column; }
-      .hero-actions .btn { width: 100%; }
-      .card { min-height: 230px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { transition: none !important; }
-    }
+    @media(max-width:420px){.downloads{grid-template-columns:repeat(2,1fr)}.downloads label{padding:.9em .5rem}}
   </style>
 </head>
 <body>
-  <div class="shell">
-    <nav aria-label="التنقل الرئيسي">
-      <a class="brand" href="#top" aria-label="Vencord Arabic">
-        <img src="assets/vencord-arabic-logo.png" alt="" />
+  <nav>
+    <div class="nav-content">
+      <a class="brand" href="#">
+        <img src="assets/vencord-arabic-logo.png" alt="Vencord Arabic" />
         <span>Vencord Arabic</span>
       </a>
-      <div class="nav-links">
-        <a class="nav-link hide-mobile" href="#downloads">التحميل</a>
-        <a class="nav-link" href="https://github.com/ShadowUR0/Vencord" target="_blank" rel="noreferrer">GitHub</a>
-      </div>
-    </nav>
+      <ul class="nav-links">
+        <li><a class="download" href="#downloads">Download</a></li>
+        <li><a class="source" href="https://github.com/ShadowUR0/Vencord">Source</a></li>
+        <li><a class="releases" href="https://github.com/ShadowUR0/Vencord/releases/tag/devbuild">Releases</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <main id="top">
-      <header class="hero">
-        <div class="hero-inner">
-          <img class="hero-logo" src="assets/vencord-arabic-logo.png" alt="شعار Vencord Arabic" />
-          <h1>Vencord Arabic</h1>
-          <p class="lead">نسخة عربية غير رسمية من Vencord مع تعريب مدمج وتحديثات متوافقة مع المشروع الاصلي.</p>
-          <div class="hero-actions">
-            <a class="btn primary" href="#downloads">اختيار نسخة التحميل</a>
-            <a class="btn" href="https://github.com/ShadowUR0/Vencord/releases/tag/devbuild" target="_blank" rel="noreferrer">عرض DevBuild</a>
+  <main>
+    <h1>تحميل Vencord Arabic</h1>
+    <p class="intro">اختر منصتك وحمل النسخة المناسبة مباشرة</p>
+
+    <div class="downloads" id="downloads">
+      <input id="windows" type="radio" name="platform" checked />
+      <label for="windows">Windows</label>
+      <input id="linux" type="radio" name="platform" />
+      <label for="linux">Linux</label>
+      <input id="mac" type="radio" name="platform" />
+      <label for="mac">Mac</label>
+      <input id="browser" type="radio" name="platform" />
+      <label for="browser">Browser</label>
+
+      <section class="download-section windows">
+        <div class="tab">
+          <p>حمل <code>VencordArabicInstaller.exe</code> وشغله ثم اختر نسخة Discord التي تريد تثبيت Vencord Arabic عليها واضغط Install</p>
+          <div class="button-row">
+            <a class="button primary" href="https://github.com/ShadowUR0/Installer/releases/latest/download/VencordArabicInstaller.exe">تحميل VencordArabicInstaller.exe</a>
+            <a class="button" href="https://github.com/ShadowUR0/Installer/releases/latest/download/SHA256SUMS.txt">SHA256SUMS.txt</a>
           </div>
-        </div>
-      </header>
-
-      <section id="downloads">
-        <div class="section-heading">
-          <div>
-            <h2>اختر نسختك</h2>
-            <p>روابط التحميل دائما تشير الى احدث Build متوفر من مستودعات Vencord Arabic.</p>
+          <div class="warning">
+            <p><strong>لا تشغل الانستولر كمسؤول Administrator</strong></p>
+            <p>قد يعرض Windows تحذير SmartScreen لان الملف غير موقع رقميا حاليا</p>
           </div>
-        </div>
-
-        <div class="downloads">
-          <article class="card" id="windows-card">
-            <span class="recommended">موصى به</span>
-            <div class="icon" aria-hidden="true">⊞</div>
-            <h3>Windows</h3>
-            <p>الانستولر الكامل لتثبيت Vencord Arabic واصلاحه او ازالته.</p>
-            <div class="meta" id="windows-meta">احدث اصدار</div>
-            <div class="card-action">
-              <a class="btn primary" href="https://github.com/ShadowUR0/Installer/releases/latest/download/VencordArabicInstaller.exe">تحميل Installer</a>
-            </div>
-          </article>
-
-          <article class="card" id="chrome-card">
-            <div class="icon" aria-hidden="true">◉</div>
-            <h3>Chrome / Chromium</h3>
-            <p>نسخة المتصفح من DevBuild بصيغة ZIP للمتصفحات المبنية على Chromium.</p>
-            <div class="meta" id="chrome-meta">DevBuild الحالي</div>
-            <div class="card-action">
-              <a class="btn" href="https://github.com/ShadowUR0/Vencord/releases/download/devbuild/extension-chrome.zip">تحميل ZIP</a>
-            </div>
-          </article>
-
-          <article class="card" id="firefox-card">
-            <div class="icon" aria-hidden="true">◌</div>
-            <h3>Firefox</h3>
-            <p>نسخة المتصفح من DevBuild بصيغة ZIP الخاصة بفايرفوكس.</p>
-            <div class="meta" id="firefox-meta">DevBuild الحالي</div>
-            <div class="card-action">
-              <a class="btn" href="https://github.com/ShadowUR0/Vencord/releases/download/devbuild/extension-firefox.zip">تحميل ZIP</a>
-            </div>
-          </article>
-        </div>
-
-        <div class="info">
-          <strong>Windows:</strong> قد يظهر تحذير SmartScreen لان الانستولر غير موقع رقميا حاليا. يمكنك التحقق من ملف
-          <a href="https://github.com/ShadowUR0/Installer/releases/latest/download/SHA256SUMS.txt"><u>SHA256SUMS.txt</u></a>.
-          نسخ المتصفح هي DevBuild وتحتاج تثبيتا يدويا.
         </div>
       </section>
 
-      <section>
-        <div class="about-grid">
-          <article class="about-card">
-            <h3>ما هو Vencord Arabic؟</h3>
-            <p>Fork غير رسمي من Vencord يضيف تعريبا محليا مدمجا لواجهات واعدادات Vencord، مع الحفاظ على مزايا المشروع الاصلي وتحديثاته قدر الامكان.</p>
-          </article>
-          <article class="about-card">
-            <h3>روابط المشروع</h3>
-            <ul>
-              <li><a href="https://github.com/ShadowUR0/Vencord"><u>المصدر على GitHub</u></a></li>
-              <li><a href="https://github.com/ShadowUR0/Installer"><u>Vencord Arabic Installer</u></a></li>
-              <li><a href="https://github.com/ShadowUR0/Vencord/releases/tag/devbuild"><u>DevBuild الحالي</u></a></li>
-            </ul>
-          </article>
+      <section class="download-section linux">
+        <div class="tab">
+          <p>لا يوجد حاليا Installer مخصص لـVencord Arabic على Linux</p>
+          <a class="button disabled" href="#" aria-disabled="true">غير متوفر حاليا</a>
         </div>
       </section>
-    </main>
 
-    <footer>
-      Vencord Arabic مشروع غير رسمي وغير تابع لـ Discord Inc. او فريق Vencord الرسمي. استخدام تعديلات عميل Discord يكون على مسؤولية المستخدم.
-    </footer>
-  </div>
+      <section class="download-section mac">
+        <div class="tab">
+          <p>لا يوجد حاليا Installer مخصص لـVencord Arabic على macOS</p>
+          <a class="button disabled" href="#" aria-disabled="true">غير متوفر حاليا</a>
+        </div>
+      </section>
+
+      <section class="download-section browser">
+        <div class="tab">
+          <p>نسخ المتصفح مبنية من DevBuild الحالي وتثبت يدويا</p>
+          <div class="browser-grid">
+            <div class="browser-box">
+              <h3>Chrome / Chromium</h3>
+              <p>Chrome وEdge وBrave وبقية المتصفحات المبنية على Chromium</p>
+              <a class="button primary" href="https://github.com/ShadowUR0/Vencord/releases/download/devbuild/extension-chrome.zip">تحميل extension-chrome.zip</a>
+            </div>
+            <div class="browser-box">
+              <h3>Firefox</h3>
+              <p>نسخة Firefox من DevBuild الحالي</p>
+              <a class="button primary" href="https://github.com/ShadowUR0/Vencord/releases/download/devbuild/extension-firefox.zip">تحميل extension-firefox.zip</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <p class="subtle">Vencord Arabic هو fork غير رسمي من Vencord مع تعريب مدمج. المشروع غير تابع لـDiscord او فريق Vencord الرسمي</p>
+  </main>
+
+  <footer>
+    <div><a href="https://github.com/ShadowUR0/Vencord">Vencord Arabic</a> · مبني فوق <a href="https://github.com/Vendicated/Vencord">Vencord</a></div>
+  </footer>
 
   <script>
-    const formatBytes = bytes => {
-      if (!Number.isFinite(bytes)) return "";
-      const mb = bytes / 1024 / 1024;
-      return `${mb.toFixed(mb >= 10 ? 1 : 2)} MB`;
-    };
-
-    const formatDate = value => {
-      if (!value) return "";
-      try {
-        return new Intl.DateTimeFormat("ar", { year: "numeric", month: "short", day: "numeric" }).format(new Date(value));
-      } catch {
-        return "";
-      }
-    };
-
-    async function loadReleaseInfo() {
-      try {
-        const installerRes = await fetch("https://api.github.com/repos/ShadowUR0/Installer/releases/latest", { headers: { "Accept": "application/vnd.github+json" } });
-        if (installerRes.ok) {
-          const release = await installerRes.json();
-          const asset = release.assets?.find(a => a.name === "VencordArabicInstaller.exe");
-          const parts = [formatDate(release.updated_at), asset && formatBytes(asset.size)].filter(Boolean);
-          if (parts.length) document.querySelector("#windows-meta").textContent = parts.join(" • ");
-        }
-      } catch {}
-
-      try {
-        const devRes = await fetch("https://api.github.com/repos/ShadowUR0/Vencord/releases/tags/devbuild", { headers: { "Accept": "application/vnd.github+json" } });
-        if (devRes.ok) {
-          const release = await devRes.json();
-          const chrome = release.assets?.find(a => a.name === "extension-chrome.zip");
-          const firefox = release.assets?.find(a => a.name === "extension-firefox.zip");
-          const date = formatDate(release.updated_at);
-          const chromeParts = [date, chrome && formatBytes(chrome.size)].filter(Boolean);
-          const firefoxParts = [date, firefox && formatBytes(firefox.size)].filter(Boolean);
-          if (chromeParts.length) document.querySelector("#chrome-meta").textContent = chromeParts.join(" • ");
-          if (firefoxParts.length) document.querySelector("#firefox-meta").textContent = firefoxParts.join(" • ");
-        }
-      } catch {}
+    const radios = [...document.querySelectorAll('input[name="platform"]')];
+    const known = new Set(['windows','linux','mac','browser']);
+    function choose(id, replace = true) {
+      if (!known.has(id)) return;
+      const radio = document.getElementById(id);
+      if (!radio) return;
+      radio.checked = true;
+      if (replace) history.replaceState(null, '', '#' + id);
     }
-
-    function markRecommendedPlatform() {
-      const ua = navigator.userAgent.toLowerCase();
-      const windows = navigator.platform?.toLowerCase().includes("win") || ua.includes("windows");
-      const firefox = ua.includes("firefox");
-
-      document.querySelectorAll(".recommended").forEach(el => el.remove());
-      let card = windows ? document.querySelector("#windows-card") : firefox ? document.querySelector("#firefox-card") : document.querySelector("#chrome-card");
-      if (card) {
-        const badge = document.createElement("span");
-        badge.className = "recommended";
-        badge.textContent = "مناسب لجهازك";
-        card.appendChild(badge);
-      }
+    const hash = location.hash.slice(1).toLowerCase();
+    if (known.has(hash)) choose(hash, false);
+    else {
+      const p = (navigator.platform || '').toLowerCase();
+      if (p.includes('linux')) choose('linux');
+      else if (p.includes('mac')) choose('mac');
+      else choose('windows');
     }
-
-    markRecommendedPlatform();
-    loadReleaseInfo();
+    radios.forEach(r => r.addEventListener('change', () => {
+      if (r.checked) history.replaceState(null, '', '#' + r.id);
+    }));
   </script>
 </body>
 </html>
