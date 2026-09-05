@@ -5,7 +5,8 @@ on:
     branches:
       - main
     paths:
-      - "site/**"
+      - "site-vencord/**"
+      - "site/install.sh"
       - "assets/vencord-arabic-logo.png"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
@@ -26,13 +27,42 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout
+      - name: Checkout Vencord Arabic
         uses: actions/checkout@v6
 
-      - name: Prepare static site
+      - name: Checkout upstream Vencord website
+        uses: actions/checkout@v6
+        with:
+          repository: Vencord/vencord.dev
+          ref: 723bda03da6826518272b11f02df1791005c8f97
+          path: vencord-site
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: vencord-site/pnpm-lock.yaml
+
+      - name: Apply Vencord Arabic website overrides
         run: |
-          mkdir -p site/assets
-          cp assets/vencord-arabic-logo.png site/assets/vencord-arabic-logo.png
+          cp assets/vencord-arabic-logo.png vencord-site/public/assets/vencord-arabic-logo.png
+          cp site/install.sh vencord-site/public/install.sh
+          node site-vencord/apply-overrides.mjs vencord-site
+
+      - name: Install upstream website dependencies
+        working-directory: vencord-site
+        run: pnpm install --frozen-lockfile
+
+      - name: Build upstream Astro/Svelte website
+        working-directory: vencord-site
+        run: pnpm exec astro build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -40,7 +70,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: site
+          path: vencord-site/dist
 
       - name: Deploy to GitHub Pages
         id: deployment
