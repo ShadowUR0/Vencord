@@ -22,6 +22,12 @@ const write = (rel, value) => fs.writeFileSync(path.join(root, rel), value);
 // Localize document metadata and enforce a real RTL layout, while leaving code/commands LTR.
 let layout = read("src/layouts/Layout.astro");
 layout = layout
+    .replace('href="/Vencord/assets/favicon.png"', 'href="/Vencord/assets/vencord-arabic-logo.png"')
+    .replace('href="/Vencord/assets/favicon-dark.png"', 'href="/Vencord/assets/vencord-arabic-logo.png"')
+    .replace(
+        'new URL("/Vencord/assets/logo.png", Astro.site)',
+        'new URL("/Vencord/assets/vencord-arabic-logo.png", Astro.site)'
+    )
     .replace(
         'browserRequirements:\n            "Requires UserScript or extension support. Requires modern JavaScript support.",',
         'browserRequirements:\n            "يتطلب متصفحا حديثا يدعم الاضافات أو Userscript.",'
