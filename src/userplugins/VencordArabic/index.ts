@@ -23,6 +23,7 @@ const AUTHOR = {
     name: "Shadow",
     id: 843784503167680512n
 };
+const DISPLAY_BRAND_NAME = "ڤينكورد العربي";
 const ATTRIBUTE_NAMES = ["aria-label", "placeholder", "title"] as const;
 const VENCORD_ID_PATTERN = /vencord(?:_|-|\b)/i;
 const TRANSLATION_MAP: TranslationMap = {
@@ -135,6 +136,9 @@ function isCanonicalPluginNameElement(element: Element | null, normalized: strin
 function translateValue(value: string, element: Element | null = null) {
     const normalized = normalizeText(value);
     if (!normalized) return null;
+
+    if (normalized === "VencordArabic" || normalized === "Vencord Arabic")
+        return preserveOuterWhitespace(value, DISPLAY_BRAND_NAME);
 
     if (isCanonicalPluginNameElement(element, normalized)) return null;
 
