@@ -75,7 +75,7 @@ function processVisibleMessages() {
 export default definePlugin({
     name: "ArabicMessageDirection",
     description: "يصلح اتجاه الرسائل العربية المختلطة بالانجليزية والروابط تلقائيا",
-    authors: [{ name: "Vencord Arabic", id: 0n }],
+    authors: [],
     tags: ["Chat", "Accessibility"],
 
     start() {
