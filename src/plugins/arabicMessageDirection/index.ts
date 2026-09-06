@@ -11,7 +11,8 @@ import definePlugin from "@utils/types";
 const MESSAGE_CONTENT_SELECTOR = '[id^="message-content-"]';
 const COMPOSER_SELECTOR = 'form [role="textbox"][contenteditable="true"]';
 const TARGET_SELECTOR = `${MESSAGE_CONTENT_SELECTOR}, ${COMPOSER_SELECTOR}`;
-const RTL_CLASS = "vc-arabic-message-rtl";
+const MESSAGE_RTL_CLASS = "vc-arabic-message-rtl";
+const COMPOSER_RTL_CLASS = "vc-arabic-composer-rtl";
 const PREVIOUS_DIR_DATASET_KEY = "vcArabicPreviousDir";
 
 // URLs can contain lots of Latin characters and should not decide the
@@ -32,6 +33,10 @@ function shouldUseRtl(text: string) {
     return arabicCount > latinCount;
 }
 
+function getRtlClass(element: HTMLElement) {
+    return element.matches(COMPOSER_SELECTOR) ? COMPOSER_RTL_CLASS : MESSAGE_RTL_CLASS;
+}
+
 function restoreDirection(element: HTMLElement) {
     if (!(PREVIOUS_DIR_DATASET_KEY in element.dataset)) return;
 
@@ -40,7 +45,7 @@ function restoreDirection(element: HTMLElement) {
     else element.removeAttribute("dir");
 
     delete element.dataset[PREVIOUS_DIR_DATASET_KEY];
-    element.classList.remove(RTL_CLASS);
+    element.classList.remove(MESSAGE_RTL_CLASS, COMPOSER_RTL_CLASS);
 }
 
 function updateDirection(element: Element) {
@@ -55,8 +60,10 @@ function updateDirection(element: Element) {
     if (!(PREVIOUS_DIR_DATASET_KEY in element.dataset))
         element.dataset[PREVIOUS_DIR_DATASET_KEY] = element.getAttribute("dir") ?? "";
 
+    const rtlClass = getRtlClass(element);
     element.setAttribute("dir", "rtl");
-    element.classList.add(RTL_CLASS);
+    element.classList.remove(rtlClass === MESSAGE_RTL_CLASS ? COMPOSER_RTL_CLASS : MESSAGE_RTL_CLASS);
+    element.classList.add(rtlClass);
 }
 
 function processNode(node: Node) {
@@ -107,7 +114,7 @@ export default definePlugin({
         observer?.disconnect();
         observer = null;
 
-        document.querySelectorAll(`.${RTL_CLASS}`).forEach(element => {
+        document.querySelectorAll(`.${MESSAGE_RTL_CLASS}, .${COMPOSER_RTL_CLASS}`).forEach(element => {
             if (element instanceof HTMLElement) restoreDirection(element);
         });
     }
