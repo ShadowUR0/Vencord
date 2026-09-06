@@ -3,8 +3,8 @@
     text-align: right;
 }
 
-/* Keep Discord's composer layout intact. Runtime padding only reserves the
- * width of extra Vencord chat-bar buttons while the text is RTL. */
+/* Keep Discord's composer layout intact. Runtime padding only adds a small
+ * clearance next to visible Vencord chat-bar buttons while the text is RTL. */
 .vc-arabic-composer-rtl {
     box-sizing: border-box;
     direction: rtl;
