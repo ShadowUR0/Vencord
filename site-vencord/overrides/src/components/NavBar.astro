@@ -11,7 +11,6 @@ const page = Astro.url.pathname.split("/").filter(Boolean).at(-1);
         <div id="logo">
             <a href="/Vencord/" id="title">
                 <img src="/Vencord/assets/vencord-arabic-logo.png" id="logo-img" alt="الصفحة الرئيسية لـ Vencord Arabic" />
-                <div id="oneko" aria-hidden="true"></div>
             </a>
         </div>
         <div id="btns" class="p-label-m">
@@ -87,25 +86,10 @@ const page = Astro.url.pathname.split("/").filter(Boolean).at(-1);
     }
 
     #logo { position: relative; }
-    #logo-img { height: 42px; width: auto; }
-
-    #oneko {
-        position: absolute;
-        top: 2px;
-        left: -20px;
-        display: inline-block;
-        width: 32px;
-        height: 32px;
-        image-rendering: pixelated;
-        background-image: url("/Vencord/assets/oneko.gif");
-        animation: sleep 1s infinite;
-        cursor: pointer;
-    }
-
-    #oneko:hover { animation: 2.5s 1 forwards wakeup; }
-
-    @media (prefers-reduced-motion) {
-        #oneko { display: none; }
+    #logo-img {
+        height: 42px;
+        width: auto;
+        image-rendering: auto;
     }
 
     @media only screen and (max-width: 600px) {
@@ -114,18 +98,5 @@ const page = Astro.url.pathname.split("/").filter(Boolean).at(-1);
             position: relative;
             flex-direction: column;
         }
-    }
-
-    @keyframes sleep {
-        0%, 50% { background-position: -64px 0; }
-        50.00001%, 100% { background-position: -64px -32px; }
-    }
-
-    @keyframes wakeup {
-        0%, 20% { background-position: -160px 0; }
-        20.00001%, 40% { background-position: -192px 0; }
-        40.00001%, 60% { background-position: -224px 0; }
-        60.00001%, 80% { background-position: -96px -64px; }
-        80.00001%, 100% { background-position: -96px -96px; }
     }
 </style>
