@@ -1,4 +1,4 @@
-name: Deploy Vencord Arabic website
+name: Deploy ڤينكورد العربي website
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout Vencord Arabic
+      - name: Checkout ڤينكورد العربي
         uses: actions/checkout@v6
 
       - name: Checkout upstream Vencord website
@@ -49,7 +49,7 @@ jobs:
           corepack prepare pnpm@10.33.2 --activate
           pnpm --version
 
-      - name: Apply Vencord Arabic website overrides
+      - name: Apply ڤينكورد العربي website overrides
         run: |
           cp assets/vencord-arabic-logo.png vencord-site/public/assets/vencord-arabic-logo.png
           cp site/install.sh vencord-site/public/install.sh
