@@ -16,6 +16,7 @@ const COMPOSER_RTL_CLASS = "vc-arabic-composer-rtl";
 const PREVIOUS_DIR_DATASET_KEY = "vcArabicPreviousDir";
 const PREVIOUS_PADDING_DATASET_KEY = "vcArabicPreviousPaddingRight";
 const BASE_PADDING_DATASET_KEY = "vcArabicBasePaddingRight";
+const COMPOSER_BUTTON_CLEARANCE = 8;
 
 // URLs can contain lots of Latin characters and should not decide the
 // direction of an otherwise Arabic message.
@@ -39,17 +40,16 @@ function getRtlClass(element: HTMLElement) {
     return element.matches(COMPOSER_SELECTOR) ? COMPOSER_RTL_CLASS : MESSAGE_RTL_CLASS;
 }
 
-function getVisibleCustomButtonWidth(composer: HTMLElement) {
+function hasVisibleCustomButton(composer: HTMLElement) {
     const form = composer.closest("form");
-    if (!form) return 0;
+    if (!form) return false;
 
-    let width = 0;
     for (const button of form.querySelectorAll<HTMLElement>(".vc-chatbar-button")) {
         const rect = button.getBoundingClientRect();
-        if (rect.width > 0 && rect.height > 0) width += rect.width;
+        if (rect.width > 0 && rect.height > 0) return true;
     }
 
-    return width;
+    return false;
 }
 
 function syncComposerSpacing(element: HTMLElement) {
@@ -61,8 +61,8 @@ function syncComposerSpacing(element: HTMLElement) {
     }
 
     const basePadding = Number.parseFloat(element.dataset[BASE_PADDING_DATASET_KEY] ?? "0") || 0;
-    const customButtonWidth = getVisibleCustomButtonWidth(element);
-    element.style.paddingRight = `${basePadding + customButtonWidth}px`;
+    const clearance = hasVisibleCustomButton(element) ? COMPOSER_BUTTON_CLEARANCE : 0;
+    element.style.paddingRight = `${basePadding + clearance}px`;
 }
 
 function restoreComposerSpacing(element: HTMLElement) {
