@@ -3,6 +3,12 @@
     text-align: right;
 }
 
+/* The composer keeps Discord's own alignment/layout so chat-bar buttons keep
+ * their reserved space. Only the bidi direction is changed while typing. */
+.vc-arabic-composer-rtl {
+    direction: rtl;
+}
+
 /* Keep technical LTR fragments readable inside an RTL message. */
 .vc-arabic-message-rtl :is(a[href], code, pre) {
     direction: ltr;
