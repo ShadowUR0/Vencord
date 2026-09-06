@@ -126,7 +126,7 @@ async function runUpdateCheck() {
             await update();
             if (Settings.autoUpdateNotification) {
                 notify({
-                    title: "تم تحديث Vencord Arabic",
+                    title: "تم تحديث ڤينكورد العربي",
                     body: "اضغط لإعادة التشغيل وتطبيق التحديث",
                     onClick: relaunch
                 });
@@ -135,7 +135,7 @@ async function runUpdateCheck() {
         }
 
         notify({
-            title: "يتوفر تحديث جديد لـ Vencord Arabic",
+            title: "يتوفر تحديث جديد لـ ڤينكورد العربي",
             body: "اضغط لعرض تفاصيل التحديث",
             onClick: () => openSettingsTabModal(UpdaterTab!)
         });
