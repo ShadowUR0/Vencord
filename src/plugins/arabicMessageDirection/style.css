@@ -3,9 +3,10 @@
     text-align: right;
 }
 
-/* The composer keeps Discord's own alignment/layout so chat-bar buttons keep
- * their reserved space. Only the bidi direction is changed while typing. */
+/* Keep Discord's composer layout intact. Runtime padding only reserves the
+ * width of extra Vencord chat-bar buttons while the text is RTL. */
 .vc-arabic-composer-rtl {
+    box-sizing: border-box;
     direction: rtl;
 }
 
