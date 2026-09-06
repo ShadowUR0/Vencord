@@ -1,0 +1,15 @@
+.vc-arabic-message-rtl {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Keep technical LTR fragments readable inside an RTL message. */
+.vc-arabic-message-rtl :is(a[href], code, pre) {
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+.vc-arabic-message-rtl pre,
+.vc-arabic-message-rtl code {
+    text-align: left;
+}
