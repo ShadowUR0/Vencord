@@ -9,6 +9,8 @@ import "./style.css";
 import definePlugin from "@utils/types";
 
 const MESSAGE_CONTENT_SELECTOR = '[id^="message-content-"]';
+const COMPOSER_SELECTOR = 'form [role="textbox"][contenteditable="true"]';
+const TARGET_SELECTOR = `${MESSAGE_CONTENT_SELECTOR}, ${COMPOSER_SELECTOR}`;
 const RTL_CLASS = "vc-arabic-message-rtl";
 const PREVIOUS_DIR_DATASET_KEY = "vcArabicPreviousDir";
 
@@ -61,15 +63,15 @@ function processNode(node: Node) {
     const element = node instanceof Element ? node : node.parentElement;
     if (!element) return;
 
-    const containingMessage = element.closest(MESSAGE_CONTENT_SELECTOR);
-    if (containingMessage) updateDirection(containingMessage);
+    const containingTarget = element.closest(TARGET_SELECTOR);
+    if (containingTarget) updateDirection(containingTarget);
 
-    if (element.matches(MESSAGE_CONTENT_SELECTOR)) updateDirection(element);
-    element.querySelectorAll(MESSAGE_CONTENT_SELECTOR).forEach(updateDirection);
+    if (element.matches(TARGET_SELECTOR)) updateDirection(element);
+    element.querySelectorAll(TARGET_SELECTOR).forEach(updateDirection);
 }
 
-function processVisibleMessages() {
-    document.querySelectorAll(MESSAGE_CONTENT_SELECTOR).forEach(updateDirection);
+function processVisibleContent() {
+    document.querySelectorAll(TARGET_SELECTOR).forEach(updateDirection);
 }
 
 export default definePlugin({
@@ -79,7 +81,7 @@ export default definePlugin({
     tags: ["Chat", "Accessibility"],
 
     start() {
-        processVisibleMessages();
+        processVisibleContent();
 
         const root = document.getElementById("app-mount") ?? document.body;
         observer = new MutationObserver(mutations => {
