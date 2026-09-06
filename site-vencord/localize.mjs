@@ -29,10 +29,25 @@ layout = layout
         'new URL("/Vencord/assets/vencord-arabic-logo.png", Astro.site)'
     )
     .replace(
+        'name: "Vencord",\n        alternateName: "VC",',
+        'name: "ڤينكورد العربي",\n        alternateName: "Vencord Arabic",'
+    )
+    .replace(
+        'name: "Vencord",\n        operatingSystem: "Windows,macOS,Linux",',
+        'name: "ڤينكورد العربي",\n        operatingSystem: "Windows,macOS,Linux",'
+    )
+    .replace(
+        '<title>{title ? `${title} | Vencord` : "Vencord"}</title>',
+        '<title>{title ? `${title} | ڤينكورد العربي` : "ڤينكورد العربي"}</title>'
+    )
+    .replace('<meta name="author" content="Vencord Contributors" />', '<meta name="author" content="مساهمو ڤينكورد العربي" />')
+    .replace('<meta name="og:title" content={title ?? "Vencord"} />', '<meta name="og:title" content={title ?? "ڤينكورد العربي"} />')
+    .replace('<meta name="og:site_name" content="Vencord" />', '<meta name="og:site_name" content="ڤينكورد العربي" />')
+    .replace(
         'browserRequirements:\n            "Requires UserScript or extension support. Requires modern JavaScript support.",',
         'browserRequirements:\n            "يتطلب متصفحا حديثا يدعم الاضافات أو Userscript.",'
     )
-    .replace('<!-- read if cute :3 -->', '<!-- واجهة Vencord Arabic -->');
+    .replace('<!-- read if cute :3 -->', '<!-- واجهة ڤينكورد العربي -->');
 
 if (!layout.includes("vencord-arabic-rtl")) {
     layout = layout.replace(
@@ -69,11 +84,11 @@ footer = footer
     .replace("source code", "الشيفرة المصدرية")
     .replace(
         "Discord is trademark of Discord Inc. Vencord Arabic is an unofficial fork and is not affiliated with Discord Inc. or the official Vencord project.",
-        "Discord علامة تجارية لشركة Discord Inc. وVencord Arabic نسخة غير رسمية وغير تابعة لديسكورد أو لفريق Vencord الرسمي."
+        "Discord علامة تجارية لشركة Discord Inc. وڤينكورد العربي نسخة غير رسمية وغير تابعة لديسكورد أو لفريق Vencord الرسمي."
     )
     .replace('title="Join Vencord Arabic\'s Discord Server"', 'title="الدعم والمشاكل"')
-    .replace('title="Vencord Source Code"', 'title="الشيفرة المصدرية لـ Vencord Arabic"')
-    .replace('title="Vencord on X (formerly Twitter)"', 'title="Vencord Arabic على GitHub"')
+    .replace('title="Vencord Source Code"', 'title="الشيفرة المصدرية لـ ڤينكورد العربي"')
+    .replace('title="Vencord on X (formerly Twitter)"', 'title="ڤينكورد العربي على GitHub"')
     .replace('title="Support Vencord Arabic\'s Development"', 'title="مصدر موقع Vencord الاصلي"')
     .replace("Switch to Light theme", "التبديل إلى الوضع الفاتح")
     .replace("Switch to Dark theme", "التبديل إلى الوضع الداكن");
