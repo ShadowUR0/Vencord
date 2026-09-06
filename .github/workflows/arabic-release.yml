@@ -1,4 +1,4 @@
-name: Build Vencord Arabic DevBuild
+name: Build ڤينكورد العربي DevBuild
 
 on:
   push:
@@ -93,10 +93,10 @@ jobs:
           SHORT_SHA="$(git rev-parse --short HEAD)"
 
           cat > release-notes.md <<EOF
-          Rolling development build of Vencord Arabic.
+          نسخة التطوير المتجددة من ڤينكورد العربي.
 
-          Based on Vencord with the built-in VencordArabic localization layer.
-          This release is updated automatically when Vencord Arabic changes and is consumed by ShadowUR0/Installer.
+          مبنية على Vencord مع طبقة التعريب المدمجة الخاصة بـ VencordArabic.
+          يتم تحديث هذا الاصدار تلقائيا عند تحديث ڤينكورد العربي ويستخدمه ShadowUR0/Installer.
 
           Source commit: $GITHUB_SHA
           EOF
@@ -104,12 +104,12 @@ jobs:
           if gh release view devbuild >/dev/null 2>&1; then
             gh release edit devbuild \
               --target main \
-              --title "Vencord Arabic DevBuild $SHORT_SHA" \
+              --title "ڤينكورد العربي DevBuild $SHORT_SHA" \
               --notes-file release-notes.md
             gh release upload devbuild --clobber dist/*
           else
             gh release create devbuild dist/* \
               --target main \
-              --title "Vencord Arabic DevBuild $SHORT_SHA" \
+              --title "ڤينكورد العربي DevBuild $SHORT_SHA" \
               --notes-file release-notes.md
           fi
