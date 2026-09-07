@@ -11,6 +11,11 @@ import definePlugin, { OptionType } from "@utils/types";
 import type { Message } from "@vencord/discord-types";
 import { IconUtils, UserStore, useState } from "@webpack/common";
 
+const AUTHOR = {
+    name: "Shadow",
+    id: 843784503167680512n
+};
+
 const COPY = {
     en: {
         clickToLoadName: "Click to load images",
@@ -444,7 +449,7 @@ function restoreAssetPatches() {
 export default definePlugin({
     name: "MediaSaver",
     description: "Reduce Discord data usage by loading message images on demand and limiting small media assets",
-    authors: [],
+    authors: [AUTHOR],
     tags: ["Media", "Utility"],
     settings,
 
