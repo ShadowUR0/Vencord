@@ -1,29 +1,45 @@
 /*
- * DiscordCleaner intentionally leaves Discord's navigation and functional
- * buttons alone. The selectors below only target known promotional / upsell
- * surfaces so enabling the plugin does not remove Nitro, Shop or Quests from
- * their normal menus.
- *
- * Discord's hashed suffixes change often, so we match stable class-name
- * fragments used by the promotional components instead of full generated
- * class names. Avoid broad rules such as [class*="upsell"] because they can
- * remove unrelated UI.
+ * Keep selectors scoped and semantic where possible. Discord's hashed class
+ * suffixes change often, so links/roles are preferred and class fragments are
+ * only used for elements that do not expose a stable semantic hook.
  */
 
-html.vc-cleaner-hide-promotions [class*="floatingUpsellContainer"],
-html.vc-cleaner-hide-promotions [class*="guildProfileUpsell"],
-html.vc-cleaner-hide-promotions [class*="messageLengthUpsellContainer"],
-html.vc-cleaner-hide-promotions [class*="nitroFileSizeUpsell"],
-html.vc-cleaner-hide-promotions [class*="bannerNitroUpsell"],
-html.vc-cleaner-hide-promotions [class*="upsellTooltipWrapper"],
-html.vc-cleaner-hide-promotions [class*="upsellOverlayContainer"],
-html.vc-cleaner-hide-promotions [class*="premiumPromo_"],
-html.vc-cleaner-hide-promotions [class*="premiumModal"],
-html.vc-cleaner-hide-promotions [class*="upsellModal"],
-html.vc-cleaner-hide-promotions [class*="soundboardUpsell"],
-html.vc-cleaner-hide-promotions [class*="stickerPickerNitroLabel"],
-html.vc-cleaner-hide-promotions [class*="characterCount"] [class*="upsell_"],
-html.vc-cleaner-hide-promotions [class*="emojiSection"] [class*="shinyButton"],
-html.vc-cleaner-hide-promotions [class*="customizationSection"] + [class*="upsellContainer"] {
+/* Quests / Shop / Nitro shortcuts in the private-channel sidebar. */
+html.vc-cleaner-hide-quests nav[class*="privateChannels"] li[role="listitem"]:has(a[href*="/quest-home"]),
+html.vc-cleaner-hide-quests nav[class*="privateChannels"] li[role="listitem"]:has(a[href="/quests"]),
+html.vc-cleaner-hide-shop nav[class*="privateChannels"] li[role="listitem"]:has(a[href*="/shop"]),
+html.vc-cleaner-hide-nitro nav[class*="privateChannels"] li[role="listitem"]:has(a[href*="/store"]) {
+    display: none !important;
+}
+
+/* Known Nitro / premium promotional surfaces only. */
+html.vc-cleaner-hide-nitro-upsells [class*="floatingUpsellContainer"],
+html.vc-cleaner-hide-nitro-upsells [class*="guildProfileUpsell"],
+html.vc-cleaner-hide-nitro-upsells [class*="messageLengthUpsellContainer"],
+html.vc-cleaner-hide-nitro-upsells [class*="nitroFileSizeUpsell"],
+html.vc-cleaner-hide-nitro-upsells [class*="bannerNitroUpsell"],
+html.vc-cleaner-hide-nitro-upsells [class*="upsellTooltipWrapper"],
+html.vc-cleaner-hide-nitro-upsells [class*="upsellOverlayContainer"],
+html.vc-cleaner-hide-nitro-upsells [class*="premiumPromo_"],
+html.vc-cleaner-hide-nitro-upsells [class*="premiumModal"],
+html.vc-cleaner-hide-nitro-upsells [class*="upsellModal"],
+html.vc-cleaner-hide-nitro-upsells [class*="soundboardUpsell"],
+html.vc-cleaner-hide-nitro-upsells [class*="stickerPickerNitroLabel"],
+html.vc-cleaner-hide-nitro-upsells [class*="characterCount"] [class*="upsell_"],
+html.vc-cleaner-hide-nitro-upsells [class*="emojiSection"] [class*="shinyButton"],
+html.vc-cleaner-hide-nitro-upsells [class*="customizationSection"] + [class*="upsellContainer"] {
+    display: none !important;
+}
+
+/* Gift button: semantic labels first, then a narrow icon fallback for locales. */
+html.vc-cleaner-hide-gift-button [role="button"][aria-label="Send a gift"],
+html.vc-cleaner-hide-gift-button [role="button"][aria-label="Give a Gift"],
+html.vc-cleaner-hide-gift-button [role="button"][aria-label="إرسال هدية"],
+html.vc-cleaner-hide-gift-button div[class*="textArea_"] + div[class*="buttons_"] > div:has(> div svg path[d^=" M-7,10 C-8.1049995"]) {
+    display: none !important;
+}
+
+/* Discord currently exposes this entry point with a stable non-hashed class. */
+html.vc-cleaner-hide-app-launcher div.app-launcher-entrypoint {
     display: none !important;
 }
