@@ -334,9 +334,10 @@ function MediaAttachment({ attachment }: { attachment: Attachment; }) {
     );
 }
 
-function renderMessageAccessory({ message }: { message: Message; }) {
+function renderMessageAccessory(props: Record<string, any>) {
     if (!settings.store.clickToLoadImages) return null;
 
+    const message = props.message as Message | undefined;
     const attachments = (message?.attachments as Attachment[] | undefined)?.filter(isImageAttachment);
     if (!attachments?.length) return null;
 
