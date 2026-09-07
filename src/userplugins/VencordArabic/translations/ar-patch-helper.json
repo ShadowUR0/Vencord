@@ -27,5 +27,7 @@
     "\"Replacement\" will be evaluated as a function if this is enabled": "سيتم تقييم \"Replacement\" كدالة عند تفعيل هذا الخيار",
     "Diff": "الفروقات",
     "Compiled successfully": "تم التجميع بنجاح",
-    "Compile": "تجميع"
+    "Compile": "تجميع",
+    "Hide selected Discord UI elements and promotional surfaces": "يخفي عناصر Discord والعروض الترويجية التي تختارها",
+    "Customisation": "التخصيص"
 }
