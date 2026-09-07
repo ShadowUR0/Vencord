@@ -6,7 +6,7 @@
 
 import "./style.css";
 
-import { definePluginSettings, migratePluginSetting } from "@api/Settings";
+import { definePluginSettings, migratePluginSetting, Settings } from "@api/Settings";
 import definePlugin, { OptionType } from "@utils/types";
 
 const ROOT_CLASSES = [
@@ -145,6 +145,11 @@ type Language = keyof typeof COPY;
 type CopyKey = keyof typeof COPY.en;
 
 function getLanguage(): Language {
+    // VencordArabic is a user-controlled localisation layer. When it is enabled,
+    // our fork-specific plugins should follow it even if Discord itself is set
+    // to English. Otherwise fall back to Discord/browser locale.
+    if (Settings.plugins.VencordArabic?.enabled) return "ar";
+
     const locale = typeof document === "undefined"
         ? "en"
         : document.documentElement.lang || navigator.language || "en";
