@@ -1,0 +1,43 @@
+/*
+ * Keep selectors scoped and semantic where possible. Discord's hashed class
+ * suffixes change often, so links/roles are preferred and class fragments are
+ * only used for elements that do not expose a stable semantic hook.
+ */
+
+/* Quests / Shop / Nitro shortcuts in the private-channel sidebar. */
+html.vc-cleaner-hide-quests nav[class*="privateChannels"] li[role="listitem"]:has(a[href*="/quest-home"]),
+html.vc-cleaner-hide-quests nav[class*="privateChannels"] li[role="listitem"]:has(a[href="/quests"]),
+html.vc-cleaner-hide-shop nav[class*="privateChannels"] li[role="listitem"]:has(a[href*="/shop"]),
+html.vc-cleaner-hide-nitro nav[class*="privateChannels"] li[role="listitem"]:has(a[href*="/store"]) {
+    display: none !important;
+}
+
+/*
+ * Nitro promotional surfaces. These are intentionally more specific than a
+ * blanket [class*="upsell"] rule so unrelated Discord UI is not removed.
+ */
+html.vc-cleaner-hide-nitro-upsells [class*="floatingUpsellContainer"],
+html.vc-cleaner-hide-nitro-upsells [class*="guildProfileUpsell"],
+html.vc-cleaner-hide-nitro-upsells [class*="messageLengthUpsellContainer"],
+html.vc-cleaner-hide-nitro-upsells [class*="nitroFileSizeUpsell"],
+html.vc-cleaner-hide-nitro-upsells [class*="bannerNitroUpsell"],
+html.vc-cleaner-hide-nitro-upsells [class*="upsellTooltipWrapper"],
+html.vc-cleaner-hide-nitro-upsells [class*="upsellOverlayContainer"],
+html.vc-cleaner-hide-nitro-upsells [class*="characterCount"] [class*="upsell_"],
+html.vc-cleaner-hide-nitro-upsells [class*="emojiSection"] [class*="shinyButton"],
+html.vc-cleaner-hide-nitro-upsells [class*="customizationSection"] + [class*="upsellContainer"] {
+    display: none !important;
+}
+
+/* Gift button: semantic labels first, then a narrow icon fallback for locales. */
+html.vc-cleaner-hide-gift-button [role="button"][aria-label="Send a gift"],
+html.vc-cleaner-hide-gift-button [role="button"][aria-label="Give a Gift"],
+html.vc-cleaner-hide-gift-button [role="button"][aria-label="إرسال هدية"],
+html.vc-cleaner-hide-gift-button div[class*="textArea_"] + div[class*="buttons_"] > div:has(> div svg path[d^=" M-7,10 C-8.1049995"]) {
+    display: none !important;
+}
+
+/* Discord currently exposes this entry point with a stable non-hashed class. */
+html.vc-cleaner-hide-app-launcher div.app-launcher-entrypoint {
+    display: none !important;
+}
