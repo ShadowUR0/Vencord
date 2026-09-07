@@ -119,12 +119,3 @@
     background: var(--brand-500);
     color: var(--white-500, #fff);
 }
-
-@media (max-width: 600px) {
-    .vc-mediaSaver-placeholder,
-    .vc-mediaSaver-image-wrap {
-        width: min(100%, 420px) !important;
-        height: auto !important;
-        aspect-ratio: var(--vc-mediaSaver-ratio, 16 / 9);
-    }
-}
