@@ -1,0 +1,130 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+.vc-mediaSaver-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.vc-mediaSaver-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    max-width: min(520px, 100%);
+}
+
+.vc-mediaSaver-placeholder,
+.vc-mediaSaver-image-wrap {
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--border-subtle, var(--background-modifier-accent));
+    border-radius: 8px;
+    background: var(--background-secondary-alt, var(--background-secondary));
+}
+
+.vc-mediaSaver-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 180px;
+    min-height: 120px;
+    padding: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.vc-mediaSaver-placeholder:hover {
+    background: var(--background-modifier-hover);
+}
+
+.vc-mediaSaver-placeholder:focus-visible {
+    outline: 2px solid var(--brand-500);
+    outline-offset: 2px;
+}
+
+.vc-mediaSaver-placeholder-title {
+    color: var(--header-primary);
+    font-weight: 600;
+}
+
+.vc-mediaSaver-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 10px;
+    max-width: 100%;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.vc-mediaSaver-meta span:first-child {
+    overflow: hidden;
+    max-width: 320px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.vc-mediaSaver-image-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--background-secondary);
+}
+
+.vc-mediaSaver-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.vc-mediaSaver-image-enhanced {
+    image-rendering: auto;
+    filter: contrast(1.035) saturate(1.015);
+}
+
+.vc-mediaSaver-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.vc-mediaSaver-button {
+    border: 0;
+    border-radius: 5px;
+    padding: 5px 9px;
+    background: var(--button-secondary-background, var(--background-modifier-accent));
+    color: var(--text-normal);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.vc-mediaSaver-button:hover {
+    background: var(--button-secondary-background-hover, var(--background-modifier-hover));
+}
+
+.vc-mediaSaver-button-active {
+    background: var(--brand-500);
+    color: var(--white-500, #fff);
+}
+
+@media (max-width: 600px) {
+    .vc-mediaSaver-placeholder,
+    .vc-mediaSaver-image-wrap {
+        width: min(100%, 420px) !important;
+        height: auto !important;
+        aspect-ratio: var(--vc-mediaSaver-ratio, 16 / 9);
+    }
+}
