@@ -220,7 +220,7 @@ const settings = definePluginSettings({
 
 export default definePlugin({
     name: "DiscordCleaner",
-    get description() { return text("pluginDescription"); },
+    description: "Hide selected Discord UI elements and promotional surfaces",
     authors: [],
     tags: ["Appearance", "Customisation"],
     settings,
