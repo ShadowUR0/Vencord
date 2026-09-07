@@ -9,6 +9,11 @@ import "./style.css";
 import { definePluginSettings, migratePluginSetting, Settings } from "@api/Settings";
 import definePlugin, { OptionType } from "@utils/types";
 
+const AUTHOR = {
+    name: "Shadow",
+    id: 843784503167680512n
+};
+
 const ROOT_CLASSES = [
     "vc-cleaner-hide-quests",
     "vc-cleaner-hide-shop",
@@ -226,7 +231,7 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "DiscordCleaner",
     description: "Hide selected Discord UI elements and promotional surfaces",
-    authors: [],
+    authors: [AUTHOR],
     tags: ["Appearance", "Customisation"],
     settings,
     requiresRestart: false,
