@@ -20,5 +20,5 @@
     "src/components/settings/tabs/patchHelper/index.tsx": "b23aeddd7ffcb7470b964fc5a0798ebb797b7467",
     "src/components/settings/tabs/patchHelper/FullPatchInput.tsx": "eaad1d4f7c8e504ae80ba3d3000fec576d26e99a",
     "src/components/settings/tabs/patchHelper/ReplacementInput.tsx": "3f01f648b86324cdd4a3033dbcc6b42a4e65b482",
-    "src/components/settings/tabs/patchHelper/PatchPreview.tsx": "2d5681b47502e45132efe1cc752f62198a2d07a0"
+    "src/components/settings/tabs/patchHelper/PatchPreview.tsx": "5ece08401e9b0d18e090f0aeb763935269864669"
 }

@@ -6,12 +6,8 @@
 
 import "./style.css";
 
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-
-const AUTHOR = {
-    name: "Shadow",
-    id: 843784503167680512n
-};
 
 const MESSAGE_CONTENT_SELECTOR = '[id^="message-content-"]';
 const COMPOSER_SELECTOR = 'form [role="textbox"][contenteditable="true"]';
@@ -133,7 +129,7 @@ function processVisibleContent() {
 export default definePlugin({
     name: "ArabicMessageDirection",
     description: "يصلح اتجاه الرسائل العربية المختلطة بالانجليزية والروابط تلقائيا",
-    authors: [AUTHOR],
+    authors: [Devs.Shadow],
     tags: ["Chat", "Accessibility"],
 
     start() {
