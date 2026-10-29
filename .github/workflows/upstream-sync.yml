@@ -1,12 +1,18 @@
 name: Sync upstream Vencord
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/upstream-sync.yml
   schedule:
     - cron: "17 4 * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: upstream-vencord-sync
@@ -41,9 +47,36 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Merge only in this temporary runner first. Nothing reaches our
-          # main branch until all Vencord and Arabic-fork checks below pass.
-          git merge --no-edit upstream/main
+          # Stage the merge on the runner, preserving fork-owned documentation.
+          # Do not automatically resolve conflicts in source code or translations.
+          if ! git merge --no-commit --no-ff upstream/main; then
+            conflicts="$(git diff --name-only --diff-filter=U)"
+            if [[ -z "$conflicts" ]]; then
+              echo "::error::Upstream merge failed without resolvable file conflicts."
+              exit 1
+            fi
+
+            while IFS= read -r file; do
+              case "$file" in
+                .github/ISSUE_TEMPLATE/bug_report.yml|.github/pull_request_template.md|CODE_OF_CONDUCT.md|CONTRIBUTING.md)
+                  echo "Preserving Vencord Arabic documentation: $file"
+                  git checkout --ours -- "$file"
+                  git add -- "$file"
+                  ;;
+                *)
+                  echo "::error file=$file::Unexpected upstream merge conflict; manual review required."
+                  exit 1
+                  ;;
+              esac
+            done <<< "$conflicts"
+          fi
+
+          if [[ -n "$(git ls-files --unmerged)" ]]; then
+            echo "::error::Unresolved merge conflicts remain."
+            exit 1
+          fi
+
+          git commit -m "Merge upstream Vencord into Vencord Arabic"
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Setup pnpm
@@ -63,7 +96,7 @@ jobs:
 
       - name: Verify Arabic translation review
         if: steps.merge.outputs.changed == 'true'
-        run: pnpm checkArabicTranslations
+        run: node scripts/checkArabicTranslations.mjs
 
       - name: Lint and build desktop
         if: steps.merge.outputs.changed == 'true'
@@ -83,3 +116,12 @@ jobs:
           # This push targets ShadowUR0/Vencord only. This workflow never
           # creates a pull request, issue or submission in upstream Vencord.
           git push origin HEAD:main
+
+      - name: Publish updated Arabic build
+        if: steps.merge.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # A push made with GITHUB_TOKEN does not trigger push workflows.
+          # Explicit workflow_dispatch is required to publish fresh assets.
+          gh workflow run arabic-release.yml --repo "$GITHUB_REPOSITORY" --ref main
