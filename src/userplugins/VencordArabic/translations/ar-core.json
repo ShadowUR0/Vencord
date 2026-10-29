@@ -10,6 +10,8 @@
     "Use right-to-left direction for translated Arabic text": "استخدام اتجاه الكتابة من اليمين إلى اليسار للنص العربي المترجم",
     "Translate placeholders, tooltips and accessibility labels": "ترجمة حقول الإدخال والتلميحات وتسميات إمكانية الوصول",
 
+    "Block Discord Analytics": "حظر تحليلات Discord",
+    "Enable the system's title bar in addition to Discord's custom one": "إظهار شريط عنوان النظام إلى جانب شريط عنوان Discord",
     "Apply your configured QuickCSS": "تطبيق QuickCSS الذي أعددته",
     "Allows you to resize the window to any size, even smaller than Discord's minimum size": "يسمح بتغيير حجم النافذة إلى أي مقاس حتى لو كان أصغر من الحد الأدنى في Discord",
     "Mainly useful for plugin developers. Ignore this if you don't know what it is": "مفيد أساسا لمطوري الإضافات ويمكن تجاهله إذا لم تكن بحاجة إليه",
