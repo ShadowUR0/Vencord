@@ -48,7 +48,11 @@ The command is available as:
 pnpm checkArabicTranslations
 ```
 
-Both the Arabic DevBuild workflow and upstream synchronization workflow run this check.
+The strict `pnpm checkArabicTranslations` command is available for manual translation reviews.
+Automated upstream sync and Arabic release builds run `node scripts/checkArabicTranslations.mjs`:
+invalid dictionaries and missing required translations still fail, while changed upstream
+settings sources generate visible review warnings instead of leaving the fork months behind.
+Translation source revisions must only be refreshed after review.
 
 ## Project identity
 
@@ -74,7 +78,10 @@ The release follows the rolling DevBuild concept used by upstream Vencord: relea
 
 `.github/workflows/upstream-sync.yml` periodically fetches `Vendicated/Vencord` and merges upstream `main` into this fork when necessary.
 
-Before an upstream update is pushed to this repository, the temporary merged tree is validated with the Arabic translation guard and the project's normal build/test tooling. If any check fails, the workflow must fail without updating `main`.
+Before an upstream update is pushed to this repository, the temporary merged tree is validated with the Arabic translation guard and the project's normal build/test tooling. If any hard check fails, the workflow must fail without updating `main`.
+
+Merge conflicts in four fork-owned documentation/template files are resolved in favor of the Arabic fork. Unexpected conflicts in code or other files still halt the merge.
+When the sync pushes to `main`, it explicitly dispatches the Arabic release workflow: pushes made with GitHub's built-in `GITHUB_TOKEN` do not automatically launch push workflows.
 
 Synchronization is one-way into this fork. The workflow does not create a pull request, issue or plugin submission in the upstream Vencord repository.
 
