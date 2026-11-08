@@ -63,6 +63,29 @@ jobs:
                   git checkout --ours -- "$file"
                   git add -- "$file"
                   ;;
+                package.json)
+                  # Upstream switched to a pnpm dependency catalog. Its package
+                  # manifest must match the upstream lockfile/workspace layout.
+                  # Keep our Arabic-specific scripts without retaining stale deps.
+                  echo "Reconciling upstream package.json and Arabic custom scripts."
+                  node -e '
+                    const { execFileSync } = require("node:child_process");
+                    const { writeFileSync } = require("node:fs");
+                    const read = ref => JSON.parse(execFileSync("git", ["show", ref], { encoding: "utf8" }));
+                    const local = read(":2:package.json");
+                    const upstream = read(":3:package.json");
+                    for (const name of ["checkArabicTranslations", "testTsc"]) {
+                      if (!local.scripts?.[name]) {
+                        throw new Error("Missing custom script in local package.json: " + name);
+                      }
+                      if (!upstream.scripts?.[name]) {
+                        upstream.scripts[name] = local.scripts[name];
+                      }
+                    }
+                    writeFileSync("package.json", JSON.stringify(upstream, null, 4) + "\\n");
+                  '
+                  git add -- package.json
+                  ;;
                 *)
                   echo "::error file=$file::Unexpected upstream merge conflict; manual review required."
                   exit 1
