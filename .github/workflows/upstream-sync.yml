@@ -99,6 +99,11 @@ jobs:
             exit 1
           fi
 
+          # Keep this fork's build/release workflows. The default Actions token
+          # cannot push changes to .github/workflows without workflows permission,
+          # and upstream workflow changes could overwrite Arabic release settings.
+          git restore --source=HEAD --staged --worktree -- .github/workflows/
+
           git commit -m "Merge upstream Vencord into Vencord Arabic"
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
