@@ -82,7 +82,7 @@ jobs:
                         upstream.scripts[name] = local.scripts[name];
                       }
                     }
-                    writeFileSync("package.json", JSON.stringify(upstream, null, 4) + "\\n");
+                    writeFileSync("package.json", JSON.stringify(upstream, null, 4) + "\n");
                   '
                   git add -- package.json
                   ;;
